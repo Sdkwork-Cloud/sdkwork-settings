@@ -1,0 +1,58 @@
+# Rust
+/target
+**/*.rs.bk
+Cargo.lock.bak
+
+# Node / pnpm
+node_modules/
+**/node_modules/
+dist/
+**/dist/
+target/
+**/target/
+.turbo/
+**/.turbo/
+.pnpm-store/
+**/.pnpm-store/
+*.tsbuildinfo
+
+# Environment and local config
+.env
+.env.*
+!.env.example
+!.env.*.example
+!.env.postgres.example
+.env.local
+.env.*.local
+.env.postgres
+.env.release.local
+config/*.local.toml
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# SDKWork runtime (user-private, never tracked)
+~/.sdkwork/
+.runtime/
+**/.runtime/
+**/.sdkwork/local/
+**/.sdkwork/secrets/
+**/.sdkwork/cache/
+**/.sdkwork/tmp/
+**/.sdkwork/sdkwork-generator-changes.json
+**/.sdkwork/sdkwork-generator-manifest.json
+**/.sdkwork/sdkwork-generator-report.json
+
+# Generated artifacts (regenerated from contracts)
+generated/composition.resolved.json
+
+# Test artifacts
+coverage/
+*.lcov

@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 3,
+  "kind": "sdkwork.app.surface",
+  "app": {
+    "key": "settings",
+    "name": "sdkwork-settings-pc",
+    "displayName": "SDKWork Settings",
+    "appId": "sdkwork-settings-pc",
+    "surface": "pc",
+    "framework": "react+vite+tailwindcss-v4",
+    "versionSource": "package.json"
+  },
+  "runtime": {
+    "family": "web",
+    "runtimes": ["WEB", "BROWSER"],
+    "defaultPlatform": "WEB",
+    "defaultDeploymentProfile": "cloud",
+    "supportedDeploymentProfiles": ["cloud", "standalone"]
+  },
+  "composition": {
+    "rootConfig": "../../sdkwork.app.config.json",
+    "workspaceRoot": "apps/sdkwork-settings-pc",
+    "entry": "src/main.tsx",
+    "shellEntry": "src/App.tsx"
+  },
+  "references": {
+    "rootManifest": "../../sdkwork.app.config.json",
+    "specIndex": "../../../sdkwork-specs/README.md"
+  }
+}

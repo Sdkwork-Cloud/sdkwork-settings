@@ -1,0 +1,23 @@
+schema_version: 1
+kind: sdkwork.database.schema
+module_id: settings
+contract_version: 1.0.0
+owner_team: settings-platform
+compliance_level: L3
+engines:
+  - postgres
+  - sqlite
+table_prefix: stg_
+tables:
+  - name: stg_user_preference
+    lifecycle_status: active
+    owner: settings-platform
+  - name: stg_tenant_config
+    lifecycle_status: active
+    owner: settings-platform
+  - name: stg_system_setting
+    lifecycle_status: active
+    owner: settings-platform
+  - name: stg_config_revision
+    lifecycle_status: active
+    owner: settings-platform

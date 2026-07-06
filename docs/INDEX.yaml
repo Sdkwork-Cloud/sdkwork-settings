@@ -1,0 +1,52 @@
+# Documentation Index
+# Authority: ../sdkwork-specs/DOCUMENTATION_SPEC.md section 2
+# This file is the machine-readable catalog index for sdkwork-settings documentation.
+
+repository: sdkwork-settings
+applicationCode: settings
+domain: system
+canon:
+  - path: docs/README.md
+    role: documentation-index
+  - path: docs/product/prd/PRD.md
+    role: product-requirements
+  - path: docs/architecture/tech/TECH_ARCHITECTURE.md
+    role: technical-architecture
+sections:
+  - name: product
+    path: docs/product
+    audiences: [product, business]
+  - name: architecture
+    path: docs/architecture
+    audiences: [engineering]
+    subdirs:
+      - name: decisions
+        path: docs/architecture/decisions
+        role: adr
+      - name: tech
+        path: docs/architecture/tech
+        role: tech-architecture
+      - name: views
+        path: docs/architecture/views
+        role: architecture-views
+  - name: engineering
+    path: docs/engineering
+    audiences: [engineering]
+  - name: guides
+    path: docs/guides
+    audiences: [developer, integrator, operator]
+  - name: runbooks
+    path: docs/runbooks
+    audiences: [operator]
+  - name: changelogs
+    path: docs/changelogs
+    audiences: [engineering, release]
+  - name: releases
+    path: docs/releases
+    audiences: [release]
+  - name: migrations
+    path: docs/migrations
+    audiences: [engineering]
+  - name: archive
+    path: docs/archive
+    audiences: [engineering]

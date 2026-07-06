@@ -1,0 +1,60 @@
+# SDKWork Settings 拓扑配置
+# Authority: ../sdkwork-specs/APP_RUNTIME_TOPOLOGY_SPEC.md
+
+application:
+  code: settings
+  serviceLayout: unified-process
+
+profiles:
+  standalone:
+    services:
+      - name: sdkwork-settings-api
+        kind: http
+        port: 8080
+        binary: sdkwork-settings-standalone-gateway
+        routes:
+          - prefix: /settings/v1/app-api
+            surface: app-api
+          - prefix: /settings/v1/backend-api
+            surface: backend-api
+          - prefix: /healthz
+            surface: infra
+          - prefix: /readyz
+            surface: infra
+          - prefix: /livez
+            surface: infra
+          - prefix: /metrics
+            surface: infra
+
+  cloud:
+    services:
+      - name: sdkwork-settings-api
+        kind: http
+        port: 8080
+        binary: sdkwork-settings-api-server
+        routes:
+          - prefix: /settings/v1/app-api
+            surface: app-api
+          - prefix: /settings/v1/backend-api
+            surface: backend-api
+          - prefix: /healthz
+            surface: infra
+          - prefix: /readyz
+            surface: infra
+          - prefix: /livez
+            surface: infra
+          - prefix: /metrics
+            surface: infra
+
+database:
+  defaultEngine: postgres
+  supportedEngines:
+    - postgres
+    - sqlite
+
+discovery:
+  # Phase 1: 静态拓扑,无 RPC 服务
+  mode: static
+  # Phase 2: 接入 sdkwork-discovery 后改为 dynamic
+  # mode: dynamic
+  # endpoint: ${SDKWORK_SETTINGS_DISCOVERY_ENDPOINT}

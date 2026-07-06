@@ -1,0 +1,17 @@
+[package]
+name = "sdkwork-settings-contract"
+edition.workspace = true
+license.workspace = true
+version.workspace = true
+description = "SDKWork Settings domain contracts, DTOs, and error types"
+
+[lib]
+name = "sdkwork_settings_contract"
+path = "src/lib.rs"
+
+[dependencies]
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+chrono.workspace = true
+sdkwork_utils_rust.workspace = true

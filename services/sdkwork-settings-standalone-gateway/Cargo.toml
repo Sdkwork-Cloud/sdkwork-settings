@@ -1,0 +1,22 @@
+[package]
+name = "sdkwork-settings-standalone-gateway"
+edition.workspace = true
+license.workspace = true
+version.workspace = true
+description = "SDKWork Settings standalone application gateway"
+
+[[bin]]
+name = "sdkwork-settings-standalone-gateway"
+path = "src/main.rs"
+
+[dependencies]
+sdkwork_settings_database_host.workspace = true
+sdkwork_settings_service_host.workspace = true
+sdkwork_settings_web_bootstrap.workspace = true
+sdkwork_database_config.workspace = true
+sdkwork_database_sqlx.workspace = true
+sdkwork_web_bootstrap.workspace = true
+tokio.workspace = true
+tracing.workspace = true
+tracing-subscriber.workspace = true
+dotenvy.workspace = true

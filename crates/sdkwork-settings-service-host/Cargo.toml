@@ -1,0 +1,22 @@
+[package]
+name = "sdkwork-settings-service-host"
+edition.workspace = true
+license.workspace = true
+version.workspace = true
+description = "SDKWork Settings in-process service container"
+
+[lib]
+name = "sdkwork_settings_service_host"
+path = "src/lib.rs"
+
+[dependencies]
+sdkwork_settings_contract.workspace = true
+sdkwork_database_sqlx.workspace = true
+sdkwork_utils_rust.workspace = true
+sdkwork_id.workspace = true
+chrono.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+tracing.workspace = true
+sqlx = { workspace = true, features = ["chrono", "json"] }

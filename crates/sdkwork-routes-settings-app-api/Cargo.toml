@@ -1,0 +1,20 @@
+[package]
+name = "sdkwork-routes-settings-app-api"
+edition.workspace = true
+license.workspace = true
+version.workspace = true
+description = "SDKWork Settings app-api routes for /settings/v1/app-api/*"
+
+[lib]
+name = "sdkwork_routes_settings_app_api"
+path = "src/lib.rs"
+
+[dependencies]
+axum.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+sdkwork_settings_contract.workspace = true
+sdkwork_settings_service_host.workspace = true
+sdkwork_utils_rust.workspace = true
+sdkwork_web_core.workspace = true
+tracing.workspace = true

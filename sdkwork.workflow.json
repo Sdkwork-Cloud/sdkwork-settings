@@ -1,0 +1,174 @@
+{
+  "$schema": "../sdkwork-github-workflow/schemas/sdkwork-workflow.schema.json",
+  "schemaVersion": "2026-06-06.sdkwork.workflow.v1",
+  "app": {
+    "id": "sdkwork-settings",
+    "name": "SDKWork Settings",
+    "repository": "Sdkwork-Cloud/sdkwork-settings",
+    "sourcePath": ".",
+    "configPath": "sdkwork.app.config.json"
+  },
+  "release": {
+    "artifactPrefix": "sdkwork-settings",
+    "defaultVersion": "0.1.0",
+    "changelog": {
+      "source": "auto",
+      "maxCommitSubjects": 50
+    }
+  },
+  "dependencies": [
+    {
+      "id": "sdkwork-app-topology",
+      "repository": "Sdkwork-Cloud/sdkwork-app-topology",
+      "ref": "main",
+      "refInput": "SDKWORK_APP_TOPOLOGY_REF",
+      "tokenSecret": "SDKWORK_RELEASE_TOKEN"
+    },
+    {
+      "id": "sdkwork-appbase",
+      "repository": "Sdkwork-Cloud/sdkwork-appbase",
+      "ref": "main",
+      "refInput": "SDKWORK_APPBASE_REF",
+      "tokenSecret": "SDKWORK_RELEASE_TOKEN"
+    },
+    {
+      "id": "sdkwork-core",
+      "repository": "Sdkwork-Cloud/sdkwork-core",
+      "ref": "main",
+      "refInput": "SDKWORK_CORE_REF",
+      "tokenSecret": "SDKWORK_RELEASE_TOKEN"
+    },
+    {
+      "id": "sdkwork-database",
+      "repository": "Sdkwork-Cloud/sdkwork-database",
+      "ref": "main",
+      "refInput": "SDKWORK_DATABASE_REF",
+      "tokenSecret": "SDKWORK_RELEASE_TOKEN"
+    },
+    {
+      "id": "sdkwork-web-framework",
+      "repository": "Sdkwork-Cloud/sdkwork-web-framework",
+      "ref": "main",
+      "refInput": "SDKWORK_WEB_FRAMEWORK_REF",
+      "tokenSecret": "SDKWORK_RELEASE_TOKEN"
+    },
+    {
+      "id": "sdkwork-utils",
+      "repository": "Sdkwork-Cloud/sdkwork-utils",
+      "ref": "main",
+      "refInput": "SDKWORK_UTILS_REF",
+      "tokenSecret": "SDKWORK_RELEASE_TOKEN"
+    },
+    {
+      "id": "sdkwork-ui",
+      "repository": "Sdkwork-Cloud/sdkwork-ui",
+      "ref": "main",
+      "refInput": "SDKWORK_UI_REF",
+      "tokenSecret": "SDKWORK_RELEASE_TOKEN"
+    },
+    {
+      "id": "sdkwork-drive",
+      "repository": "Sdkwork-Cloud/sdkwork-drive",
+      "ref": "main",
+      "refInput": "SDKWORK_DRIVE_REF",
+      "tokenSecret": "SDKWORK_RELEASE_TOKEN"
+    },
+    {
+      "id": "sdkwork-iam",
+      "repository": "Sdkwork-Cloud/sdkwork-iam",
+      "ref": "main",
+      "refInput": "SDKWORK_IAM_REF",
+      "tokenSecret": "SDKWORK_RELEASE_TOKEN"
+    },
+    {
+      "id": "sdkwork-sdk-commons",
+      "repository": "Sdkwork-Cloud/sdkwork-sdk-commons",
+      "ref": "main",
+      "refInput": "SDKWORK_SDK_COMMONS_REF",
+      "tokenSecret": "SDKWORK_RELEASE_TOKEN"
+    },
+    {
+      "id": "sdkwork-sdk-generator",
+      "repository": "Sdkwork-Cloud/sdkwork-sdk-generator",
+      "ref": "main",
+      "refInput": "SDKWORK_SDK_GENERATOR_REF",
+      "tokenSecret": "SDKWORK_RELEASE_TOKEN"
+    }
+  ],
+  "toolchains": {
+    "node": "22",
+    "pnpm": "10.0.0",
+    "rust": "stable"
+  },
+  "lifecycle": {
+    "preflight": []
+  },
+  "targets": [
+    {
+      "id": "linux-x64-standalone-server-tar-gz",
+      "profile": "server",
+      "platform": "linux",
+      "architecture": "x64",
+      "formats": ["tar.gz"],
+      "runner": "ubuntu-latest",
+      "outputGlobs": ["dist/release-packages/*"],
+      "deploymentProfile": "standalone",
+      "runtimeTarget": "server"
+    },
+    {
+      "id": "linux-arm64-standalone-server-tar-gz",
+      "profile": "server",
+      "platform": "linux",
+      "architecture": "arm64",
+      "formats": ["tar.gz"],
+      "runner": "ubuntu-24.04-arm",
+      "outputGlobs": ["dist/release-packages/*"],
+      "deploymentProfile": "standalone",
+      "runtimeTarget": "server"
+    },
+    {
+      "id": "macos-arm64-standalone-server-tar-gz",
+      "profile": "server",
+      "platform": "macos",
+      "architecture": "arm64",
+      "formats": ["tar.gz"],
+      "runner": "macos-latest",
+      "outputGlobs": ["dist/release-packages/*"],
+      "deploymentProfile": "standalone",
+      "runtimeTarget": "server"
+    },
+    {
+      "id": "windows-x64-standalone-server-zip",
+      "profile": "server",
+      "platform": "windows",
+      "architecture": "x64",
+      "formats": ["zip"],
+      "runner": "windows-latest",
+      "outputGlobs": ["dist/release-packages/*"],
+      "deploymentProfile": "standalone",
+      "runtimeTarget": "server"
+    },
+    {
+      "id": "web-universal-cloud-browser-zip",
+      "profile": "browser",
+      "platform": "web",
+      "architecture": "universal",
+      "formats": ["zip"],
+      "runner": "ubuntu-latest",
+      "outputGlobs": ["apps/sdkwork-settings-pc/dist/*"],
+      "deploymentProfile": "cloud",
+      "runtimeTarget": "browser"
+    },
+    {
+      "id": "web-universal-standalone-browser-zip",
+      "profile": "browser",
+      "platform": "web",
+      "architecture": "universal",
+      "formats": ["zip"],
+      "runner": "ubuntu-latest",
+      "outputGlobs": ["apps/sdkwork-settings-pc/dist/*"],
+      "deploymentProfile": "standalone",
+      "runtimeTarget": "browser"
+    }
+  ]
+}

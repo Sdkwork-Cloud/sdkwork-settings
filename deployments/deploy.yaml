@@ -1,0 +1,68 @@
+# SDKWork Settings 部署清单
+# Authority: ../sdkwork-specs/SDKWORK_DEPLOY_SPEC.md, ../sdkwork-specs/DEPLOYMENT_SPEC.md
+
+application:
+  code: settings
+  name: SDKWork Settings
+  version: 0.1.0
+
+profiles:
+  standalone:
+    description: 单进程部署,适合个人/小团队
+    processes:
+      - name: sdkwork-settings-standalone-gateway
+        binary: sdkwork-settings-standalone-gateway
+        port: 8080
+        env:
+          SDKWORK_SETTINGS_DEPLOYMENT_PROFILE: standalone
+          SETTINGS_DATABASE_URL: ${SETTINGS_DATABASE_URL}
+    database:
+      engine: sqlite
+      url: sqlite://data/settings.db?mode=rwc
+    browser:
+      target: apps/sdkwork-settings-pc
+      devServer: http://localhost:5173
+      apiProxy: http://localhost:8080
+
+  cloud:
+    description: 多进程部署,适合企业级
+    processes:
+      - name: sdkwork-settings-api-server
+        binary: sdkwork-settings-api-server
+        port: 8080
+        env:
+          SDKWORK_SETTINGS_DEPLOYMENT_PROFILE: cloud
+          SETTINGS_DATABASE_URL: ${SETTINGS_DATABASE_URL}
+    database:
+      engine: postgres
+      url: ${SETTINGS_DATABASE_URL}
+    browser:
+      target: apps/sdkwork-settings-pc
+      cdn: https://cdn.sdkwork.com/apps/settings/releases/latest/web-universal-cloud-browser.zip
+
+install:
+  defaultPackageId: web-universal-cloud-browser-zip
+  packages:
+    - id: web-universal-cloud-browser-zip
+      name: SDKWork Settings Web Bundle
+      sourceType: WEB_URL
+      packageFormat: ZIP
+      platform: WEB
+      architecture: universal
+      deploymentProfile: cloud
+      deviceClass: BROWSER
+    - id: web-universal-standalone-browser-zip
+      name: SDKWork Settings Standalone Web Bundle
+      sourceType: DIRECT_DOWNLOAD
+      packageFormat: ZIP
+      platform: WEB
+      architecture: universal
+      deploymentProfile: standalone
+      deviceClass: BROWSER
+
+adaptive:
+  web:
+    enabled: true
+    inference:
+      api: true
+      websocket: true

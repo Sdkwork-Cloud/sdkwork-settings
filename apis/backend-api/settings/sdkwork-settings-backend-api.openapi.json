@@ -1,0 +1,1187 @@
+{
+  "openapi": "3.1.2",
+  "info": {
+    "title": "SDKWork Settings Backend API",
+    "version": "0.1.0",
+    "description": "Backend API contract for SDKWork Settings tenant configuration, system settings, and configuration revision management. Authenticated with an administrator bearer token. All HTTP 2xx JSON responses use the SdkWorkApiResponse envelope ({ code, data, traceId }); all HTTP 4xx/5xx error responses use application/problem+json with a numeric ProblemDetail.code. See sdkwork-specs/API_SPEC.md."
+  },
+  "servers": [
+    {
+      "url": "https://api.sdkwork.com/sdkwork",
+      "description": "SDKWork platform production endpoint"
+    }
+  ],
+  "tags": [
+    {
+      "name": "settings",
+      "description": "Tenant configuration, system settings, and configuration revision management for the settings domain."
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "paths": {
+    "/settings/v1/backend-api/tenant-configs": {
+      "get": {
+        "tags": ["settings"],
+        "operationId": "tenantConfigs.list",
+        "summary": "List tenant configurations",
+        "description": "List tenant configurations. Supports optional namespace filtering and offset pagination.",
+        "x-sdkwork-request-context": "WebRequestContext",
+        "x-sdkwork-api-surface": "backend-api",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "namespace",
+            "in": "query",
+            "required": false,
+            "description": "Filter tenant configurations by namespace.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "description": "One-based page index for offset pagination. Default 1.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "minimum": 1,
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "description": "Page size for offset pagination. Default 20, maximum 200.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "minimum": 1,
+              "maximum": 200,
+              "default": 20
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Tenant configuration list retrieved.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TenantConfigListResponse"
+                },
+                "example": {
+                  "code": 0,
+                  "data": {
+                    "items": [
+                      {
+                        "id": 12884901888,
+                        "tenantId": 1,
+                        "namespace": "feature-flags",
+                        "configKey": "beta-ui",
+                        "configValue": { "enabled": true },
+                        "valueType": "object",
+                        "createdAt": "2026-07-01T02:30:00.000Z",
+                        "updatedAt": "2026-07-01T02:30:00.000Z",
+                        "createdBy": 1001,
+                        "updatedBy": 1001
+                      }
+                    ],
+                    "pageInfo": {
+                      "mode": "offset",
+                      "page": 1,
+                      "pageSize": 20,
+                      "totalItems": "1",
+                      "totalPages": 1,
+                      "hasMore": false
+                    }
+                  },
+                  "traceId": "0195f2a0-7c44-7b2e-9f3a-2a6f5d8e91ab"
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "500": { "$ref": "#/components/responses/InternalServerError" }
+        }
+      }
+    },
+    "/settings/v1/backend-api/tenant-configs/{namespace}/{key}": {
+      "get": {
+        "tags": ["settings"],
+        "operationId": "tenantConfigs.retrieve",
+        "summary": "Retrieve a single tenant configuration",
+        "description": "Retrieve a single tenant configuration identified by namespace and key.",
+        "x-sdkwork-request-context": "WebRequestContext",
+        "x-sdkwork-api-surface": "backend-api",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          { "$ref": "#/components/parameters/NamespacePath" },
+          { "$ref": "#/components/parameters/KeyPath" }
+        ],
+        "responses": {
+          "200": {
+            "description": "Tenant configuration retrieved.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TenantConfigResponse"
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "500": { "$ref": "#/components/responses/InternalServerError" }
+        }
+      },
+      "put": {
+        "tags": ["settings"],
+        "operationId": "tenantConfigs.update",
+        "summary": "Update a tenant configuration",
+        "description": "Update a single tenant configuration identified by namespace and key.",
+        "x-sdkwork-request-context": "WebRequestContext",
+        "x-sdkwork-api-surface": "backend-api",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          { "$ref": "#/components/parameters/NamespacePath" },
+          { "$ref": "#/components/parameters/KeyPath" }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateTenantConfigRequest"
+              },
+              "example": {
+                "configValue": { "enabled": false },
+                "valueType": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Tenant configuration updated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TenantConfigResponse"
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "409": { "$ref": "#/components/responses/Conflict" },
+          "500": { "$ref": "#/components/responses/InternalServerError" }
+        }
+      }
+    },
+    "/settings/v1/backend-api/system-settings": {
+      "get": {
+        "tags": ["settings"],
+        "operationId": "systemSettings.list",
+        "summary": "List system settings",
+        "description": "List system settings. Supports optional namespace and scope filtering and offset pagination.",
+        "x-sdkwork-request-context": "WebRequestContext",
+        "x-sdkwork-api-surface": "backend-api",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "namespace",
+            "in": "query",
+            "required": false,
+            "description": "Filter system settings by namespace.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "scope",
+            "in": "query",
+            "required": false,
+            "description": "Filter system settings by scope.",
+            "schema": {
+              "type": "string",
+              "enum": ["global", "region"]
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "description": "One-based page index for offset pagination. Default 1.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "minimum": 1,
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "description": "Page size for offset pagination. Default 20, maximum 200.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "minimum": 1,
+              "maximum": 200,
+              "default": 20
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "System settings list retrieved.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SystemSettingListResponse"
+                },
+                "example": {
+                  "code": 0,
+                  "data": {
+                    "items": [
+                      {
+                        "id": 12884901888,
+                        "namespace": "platform",
+                        "settingKey": "maintenance-mode",
+                        "settingValue": { "enabled": false },
+                        "valueType": "object",
+                        "scope": "global",
+                        "scopeValue": null,
+                        "createdAt": "2026-07-01T02:30:00.000Z",
+                        "updatedAt": "2026-07-01T02:30:00.000Z",
+                        "createdBy": 1001,
+                        "updatedBy": 1001
+                      }
+                    ],
+                    "pageInfo": {
+                      "mode": "offset",
+                      "page": 1,
+                      "pageSize": 20,
+                      "totalItems": "1",
+                      "totalPages": 1,
+                      "hasMore": false
+                    }
+                  },
+                  "traceId": "0195f2a0-7c44-7b2e-9f3a-2a6f5d8e91ab"
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "500": { "$ref": "#/components/responses/InternalServerError" }
+        }
+      }
+    },
+    "/settings/v1/backend-api/system-settings/{namespace}/{key}": {
+      "get": {
+        "tags": ["settings"],
+        "operationId": "systemSettings.retrieve",
+        "summary": "Retrieve a single system setting",
+        "description": "Retrieve a single system setting identified by namespace and key.",
+        "x-sdkwork-request-context": "WebRequestContext",
+        "x-sdkwork-api-surface": "backend-api",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          { "$ref": "#/components/parameters/NamespacePath" },
+          { "$ref": "#/components/parameters/KeyPath" }
+        ],
+        "responses": {
+          "200": {
+            "description": "System setting retrieved.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SystemSettingResponse"
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "500": { "$ref": "#/components/responses/InternalServerError" }
+        }
+      },
+      "put": {
+        "tags": ["settings"],
+        "operationId": "systemSettings.update",
+        "summary": "Update a system setting",
+        "description": "Update a single system setting identified by namespace and key.",
+        "x-sdkwork-request-context": "WebRequestContext",
+        "x-sdkwork-api-surface": "backend-api",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          { "$ref": "#/components/parameters/NamespacePath" },
+          { "$ref": "#/components/parameters/KeyPath" }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateSystemSettingRequest"
+              },
+              "example": {
+                "settingValue": { "enabled": true },
+                "valueType": "object",
+                "scope": "region",
+                "scopeValue": "cn-east-1"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "System setting updated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SystemSettingResponse"
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "409": { "$ref": "#/components/responses/Conflict" },
+          "500": { "$ref": "#/components/responses/InternalServerError" }
+        }
+      }
+    },
+    "/settings/v1/backend-api/revisions": {
+      "get": {
+        "tags": ["settings"],
+        "operationId": "revisions.list",
+        "summary": "List configuration revision history",
+        "description": "List configuration change revision history for audit. Supports optional filtering by configType, namespace, and configId, plus offset pagination.",
+        "x-sdkwork-request-context": "WebRequestContext",
+        "x-sdkwork-api-surface": "backend-api",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "configType",
+            "in": "query",
+            "required": false,
+            "description": "Filter revisions by configuration type.",
+            "schema": {
+              "type": "string",
+              "enum": ["user", "tenant", "system"]
+            }
+          },
+          {
+            "name": "namespace",
+            "in": "query",
+            "required": false,
+            "description": "Filter revisions by namespace.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "configId",
+            "in": "query",
+            "required": false,
+            "description": "Filter revisions by configuration resource id.",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "description": "One-based page index for offset pagination. Default 1.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "minimum": 1,
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "description": "Page size for offset pagination. Default 20, maximum 200.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "minimum": 1,
+              "maximum": 200,
+              "default": 20
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Configuration revision history retrieved.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConfigRevisionListResponse"
+                },
+                "example": {
+                  "code": 0,
+                  "data": {
+                    "items": [
+                      {
+                        "id": 12884901888,
+                        "tenantId": 1,
+                        "configType": "tenant",
+                        "configId": 12884901888,
+                        "namespace": "feature-flags",
+                        "configKey": "beta-ui",
+                        "oldValue": { "enabled": true },
+                        "newValue": { "enabled": false },
+                        "operation": "update",
+                        "operatorId": 1001,
+                        "operatorIp": "10.0.0.1",
+                        "createdAt": "2026-07-01T02:30:00.000Z"
+                      }
+                    ],
+                    "pageInfo": {
+                      "mode": "offset",
+                      "page": 1,
+                      "pageSize": 20,
+                      "totalItems": "1",
+                      "totalPages": 1,
+                      "hasMore": false
+                    }
+                  },
+                  "traceId": "0195f2a0-7c44-7b2e-9f3a-2a6f5d8e91ab"
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "500": { "$ref": "#/components/responses/InternalServerError" }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "description": "Administrator bearer token issued by SDKWork IAM. Required for all backend-api operations."
+      }
+    },
+    "parameters": {
+      "NamespacePath": {
+        "name": "namespace",
+        "in": "path",
+        "required": true,
+        "description": "Configuration namespace.",
+        "schema": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        }
+      },
+      "KeyPath": {
+        "name": "key",
+        "in": "path",
+        "required": true,
+        "description": "Configuration key.",
+        "schema": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        }
+      }
+    },
+    "responses": {
+      "BadRequest": {
+        "description": "Validation error. ProblemDetail.code is 40001.",
+        "content": {
+          "application/problem+json": {
+            "schema": { "$ref": "#/components/schemas/ProblemDetail" },
+            "example": {
+              "type": "about:blank",
+              "title": "Bad Request",
+              "status": 400,
+              "code": 40001,
+              "detail": "Validation error",
+              "traceId": "0195f2a0-7c44-7b2e-9f3a-2a6f5d8e91ab"
+            }
+          }
+        }
+      },
+      "Unauthorized": {
+        "description": "Authentication required. ProblemDetail.code is 40101.",
+        "content": {
+          "application/problem+json": {
+            "schema": { "$ref": "#/components/schemas/ProblemDetail" },
+            "example": {
+              "type": "about:blank",
+              "title": "Unauthorized",
+              "status": 401,
+              "code": 40101,
+              "detail": "Authentication required",
+              "traceId": "0195f2a0-7c44-7b2e-9f3a-2a6f5d8e91ab"
+            }
+          }
+        }
+      },
+      "Forbidden": {
+        "description": "Permission denied. ProblemDetail.code is 40301.",
+        "content": {
+          "application/problem+json": {
+            "schema": { "$ref": "#/components/schemas/ProblemDetail" },
+            "example": {
+              "type": "about:blank",
+              "title": "Forbidden",
+              "status": 403,
+              "code": 40301,
+              "detail": "Permission required",
+              "traceId": "0195f2a0-7c44-7b2e-9f3a-2a6f5d8e91ab"
+            }
+          }
+        }
+      },
+      "NotFound": {
+        "description": "Resource not found. ProblemDetail.code is 40401.",
+        "content": {
+          "application/problem+json": {
+            "schema": { "$ref": "#/components/schemas/ProblemDetail" },
+            "example": {
+              "type": "about:blank",
+              "title": "Not Found",
+              "status": 404,
+              "code": 40401,
+              "detail": "Resource not found",
+              "traceId": "0195f2a0-7c44-7b2e-9f3a-2a6f5d8e91ab"
+            }
+          }
+        }
+      },
+      "Conflict": {
+        "description": "Conflicting state. ProblemDetail.code is 40901.",
+        "content": {
+          "application/problem+json": {
+            "schema": { "$ref": "#/components/schemas/ProblemDetail" },
+            "example": {
+              "type": "about:blank",
+              "title": "Conflict",
+              "status": 409,
+              "code": 40901,
+              "detail": "Conflict",
+              "traceId": "0195f2a0-7c44-7b2e-9f3a-2a6f5d8e91ab"
+            }
+          }
+        }
+      },
+      "InternalServerError": {
+        "description": "Internal server error. ProblemDetail.code is 50001.",
+        "content": {
+          "application/problem+json": {
+            "schema": { "$ref": "#/components/schemas/ProblemDetail" },
+            "example": {
+              "type": "about:blank",
+              "title": "Internal Server Error",
+              "status": 500,
+              "code": 50001,
+              "detail": "Internal error",
+              "traceId": "0195f2a0-7c44-7b2e-9f3a-2a6f5d8e91ab"
+            }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "ConfigValueType": {
+        "type": "string",
+        "enum": ["string", "number", "boolean", "object", "array", "i18n"],
+        "description": "Discriminator for how the configuration value should be interpreted."
+      },
+      "ConfigScope": {
+        "type": "string",
+        "enum": ["global", "region"],
+        "description": "Scope at which a system setting applies."
+      },
+      "ConfigType": {
+        "type": "string",
+        "enum": ["user", "tenant", "system"],
+        "description": "Kind of configuration a revision refers to."
+      },
+      "ConfigOperation": {
+        "type": "string",
+        "enum": ["create", "update", "delete"],
+        "description": "Operation captured by a configuration revision."
+      },
+      "TenantConfig": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "tenantId", "namespace", "configKey", "configValue", "valueType", "createdAt", "updatedAt", "createdBy", "updatedBy"],
+        "description": "A single tenant configuration entry.",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Unique tenant configuration identifier."
+          },
+          "tenantId": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Owning tenant identifier."
+          },
+          "namespace": {
+            "type": "string",
+            "description": "Configuration namespace."
+          },
+          "configKey": {
+            "type": "string",
+            "description": "Configuration key within the namespace."
+          },
+          "configValue": {
+            "type": "object",
+            "additionalProperties": true,
+            "description": "Configuration payload. Shape is governed by valueType."
+          },
+          "valueType": {
+            "$ref": "#/components/schemas/ConfigValueType"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Creation timestamp (UTC)."
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Last update timestamp (UTC)."
+          },
+          "createdBy": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Identifier of the operator who created the configuration."
+          },
+          "updatedBy": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Identifier of the operator who last updated the configuration."
+          }
+        }
+      },
+      "UpdateTenantConfigRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["configValue", "valueType"],
+        "description": "Request body for updating a single tenant configuration.",
+        "properties": {
+          "configValue": {
+            "type": "object",
+            "additionalProperties": true,
+            "description": "New configuration payload."
+          },
+          "valueType": {
+            "$ref": "#/components/schemas/ConfigValueType"
+          }
+        }
+      },
+      "SystemSetting": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "namespace", "settingKey", "settingValue", "valueType", "scope", "scopeValue", "createdAt", "updatedAt", "createdBy", "updatedBy"],
+        "description": "A single system setting entry.",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Unique system setting identifier."
+          },
+          "namespace": {
+            "type": "string",
+            "description": "Setting namespace."
+          },
+          "settingKey": {
+            "type": "string",
+            "description": "Setting key within the namespace."
+          },
+          "settingValue": {
+            "type": "object",
+            "additionalProperties": true,
+            "description": "Setting payload. Shape is governed by valueType."
+          },
+          "valueType": {
+            "$ref": "#/components/schemas/ConfigValueType"
+          },
+          "scope": {
+            "$ref": "#/components/schemas/ConfigScope"
+          },
+          "scopeValue": {
+            "type": ["string", "null"],
+            "description": "Scope qualifier, for example a region code when scope is 'region'. Null when scope is 'global'."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Creation timestamp (UTC)."
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Last update timestamp (UTC)."
+          },
+          "createdBy": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Identifier of the operator who created the setting."
+          },
+          "updatedBy": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Identifier of the operator who last updated the setting."
+          }
+        }
+      },
+      "UpdateSystemSettingRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["settingValue", "valueType", "scope"],
+        "description": "Request body for updating a single system setting.",
+        "properties": {
+          "settingValue": {
+            "type": "object",
+            "additionalProperties": true,
+            "description": "New setting payload."
+          },
+          "valueType": {
+            "$ref": "#/components/schemas/ConfigValueType"
+          },
+          "scope": {
+            "$ref": "#/components/schemas/ConfigScope"
+          },
+          "scopeValue": {
+            "type": ["string", "null"],
+            "description": "Scope qualifier. Must be null when scope is 'global'."
+          }
+        }
+      },
+      "ConfigRevision": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "tenantId", "configType", "configId", "namespace", "configKey", "oldValue", "newValue", "operation", "operatorId", "operatorIp", "createdAt"],
+        "description": "A single configuration change revision record for audit.",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Unique revision identifier."
+          },
+          "tenantId": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Tenant context for the revision."
+          },
+          "configType": {
+            "$ref": "#/components/schemas/ConfigType"
+          },
+          "configId": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Identifier of the affected configuration resource."
+          },
+          "namespace": {
+            "type": "string",
+            "description": "Configuration namespace affected by the change."
+          },
+          "configKey": {
+            "type": "string",
+            "description": "Configuration key affected by the change."
+          },
+          "oldValue": {
+            "type": ["object", "null"],
+            "additionalProperties": true,
+            "description": "Previous configuration value. Null on create."
+          },
+          "newValue": {
+            "type": ["object", "null"],
+            "additionalProperties": true,
+            "description": "New configuration value. Null on delete."
+          },
+          "operation": {
+            "$ref": "#/components/schemas/ConfigOperation"
+          },
+          "operatorId": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Identifier of the operator who performed the change."
+          },
+          "operatorIp": {
+            "type": "string",
+            "description": "Source IP address of the operator."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Revision timestamp (UTC)."
+          }
+        }
+      },
+      "SdkWorkApiResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["code", "data", "traceId"],
+        "description": "Canonical SDKWork success response envelope. See API_SPEC.md §15.1.",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Numeric success result code. MUST be 0 on HTTP 2xx.",
+            "enum": [0],
+            "default": 0,
+            "minimum": 0,
+            "maximum": 0
+          },
+          "data": {
+            "description": "Operation-specific payload. Typed per operation through allOf or explicit schema refs."
+          },
+          "traceId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Server-owned request correlation id. Clients MUST NOT supply this value."
+          }
+        }
+      },
+      "SdkWorkResourceData": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["item"],
+        "description": "Single-resource data payload shape.",
+        "properties": {
+          "item": {
+            "description": "Typed domain resource for the operation."
+          }
+        }
+      },
+      "SdkWorkPageData": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["items", "pageInfo"],
+        "description": "List/search data payload shape.",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {}
+          },
+          "pageInfo": {
+            "$ref": "#/components/schemas/PageInfo"
+          }
+        }
+      },
+      "PageInfo": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["mode"],
+        "description": "Pagination metadata for SdkWorkPageData. See API_SPEC.md §16.",
+        "properties": {
+          "mode": {
+            "type": "string",
+            "enum": ["offset", "cursor"],
+            "description": "Pagination mode used for this response."
+          },
+          "page": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Current one-based page index when mode is offset."
+          },
+          "pageSize": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 200,
+            "description": "Effective page size for this response."
+          },
+          "totalItems": {
+            "type": "string",
+            "format": "int64",
+            "pattern": "^[0-9]+$",
+            "x-sdkwork-int64-string": true,
+            "description": "Total rows matching the filter when mode is offset."
+          },
+          "totalPages": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Total pages when mode is offset."
+          },
+          "nextCursor": {
+            "type": ["string", "null"],
+            "description": "Opaque next-page token when mode is cursor and hasMore is true."
+          },
+          "hasMore": {
+            "type": "boolean",
+            "description": "Whether another page exists."
+          }
+        }
+      },
+      "ProblemDetail": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": ["type", "title", "status", "code", "traceId"],
+        "description": "RFC 9457 problem detail for HTTP 4xx/5xx responses. See API_SPEC.md §15.2.",
+        "properties": {
+          "type": {
+            "type": "string",
+            "format": "uri-reference"
+          },
+          "title": {
+            "type": "string"
+          },
+          "status": {
+            "type": "integer",
+            "minimum": 100,
+            "maximum": 599
+          },
+          "code": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Numeric error result code. MUST be non-zero. See API_SPEC.md §15.3.",
+            "minimum": 40001,
+            "maximum": 79999
+          },
+          "detail": {
+            "type": "string"
+          },
+          "instance": {
+            "type": "string",
+            "description": "Request endpoint occurrence in the form {METHOD} {routeTemplate}."
+          },
+          "operationId": {
+            "type": "string",
+            "description": "OpenAPI operation id for the failing request when resolved by the web framework."
+          },
+          "traceId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Server-owned request correlation id. Same semantics as SdkWorkApiResponse.traceId."
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FieldError"
+            }
+          }
+        }
+      },
+      "FieldError": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["field", "message"],
+        "description": "Field-level validation error.",
+        "properties": {
+          "field": {
+            "type": "string",
+            "description": "JSON Pointer or dot-path to the invalid field."
+          },
+          "message": {
+            "type": "string",
+            "description": "Safe validation message for logs and optional UI display."
+          },
+          "code": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": 40011,
+            "maximum": 40099,
+            "description": "Optional field-level validation subcode when ProblemDetail.code is 40001."
+          }
+        }
+      },
+      "TenantConfigResponse": {
+        "description": "Single tenant configuration response envelope.",
+        "allOf": [
+          { "$ref": "#/components/schemas/SdkWorkApiResponse" },
+          {
+            "type": "object",
+            "required": ["data"],
+            "properties": {
+              "data": {
+                "allOf": [
+                  { "$ref": "#/components/schemas/SdkWorkResourceData" },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "item": {
+                        "$ref": "#/components/schemas/TenantConfig"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "TenantConfigListResponse": {
+        "description": "Tenant configuration list response envelope.",
+        "allOf": [
+          { "$ref": "#/components/schemas/SdkWorkApiResponse" },
+          {
+            "type": "object",
+            "required": ["data"],
+            "properties": {
+              "data": {
+                "allOf": [
+                  { "$ref": "#/components/schemas/SdkWorkPageData" },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "items": {
+                        "type": "array",
+                        "items": {
+                          "$ref": "#/components/schemas/TenantConfig"
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "SystemSettingResponse": {
+        "description": "Single system setting response envelope.",
+        "allOf": [
+          { "$ref": "#/components/schemas/SdkWorkApiResponse" },
+          {
+            "type": "object",
+            "required": ["data"],
+            "properties": {
+              "data": {
+                "allOf": [
+                  { "$ref": "#/components/schemas/SdkWorkResourceData" },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "item": {
+                        "$ref": "#/components/schemas/SystemSetting"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "SystemSettingListResponse": {
+        "description": "System settings list response envelope.",
+        "allOf": [
+          { "$ref": "#/components/schemas/SdkWorkApiResponse" },
+          {
+            "type": "object",
+            "required": ["data"],
+            "properties": {
+              "data": {
+                "allOf": [
+                  { "$ref": "#/components/schemas/SdkWorkPageData" },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "items": {
+                        "type": "array",
+                        "items": {
+                          "$ref": "#/components/schemas/SystemSetting"
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "ConfigRevisionListResponse": {
+        "description": "Configuration revision list response envelope.",
+        "allOf": [
+          { "$ref": "#/components/schemas/SdkWorkApiResponse" },
+          {
+            "type": "object",
+            "required": ["data"],
+            "properties": {
+              "data": {
+                "allOf": [
+                  { "$ref": "#/components/schemas/SdkWorkPageData" },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "items": {
+                        "type": "array",
+                        "items": {
+                          "$ref": "#/components/schemas/ConfigRevision"
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

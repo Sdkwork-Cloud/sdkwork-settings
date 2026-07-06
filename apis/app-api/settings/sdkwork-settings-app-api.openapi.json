@@ -1,0 +1,904 @@
+{
+  "openapi": "3.1.2",
+  "info": {
+    "title": "SDKWork Settings App API",
+    "version": "0.1.0",
+    "description": "App API contract for SDKWork Settings user preference management. Authenticated with a user bearer token. All HTTP 2xx JSON responses use the SdkWorkApiResponse envelope ({ code, data, traceId }); all HTTP 4xx/5xx error responses use application/problem+json with a numeric ProblemDetail.code. See sdkwork-specs/API_SPEC.md."
+  },
+  "servers": [
+    {
+      "url": "https://api.sdkwork.com/sdkwork",
+      "description": "SDKWork platform production endpoint"
+    }
+  ],
+  "tags": [
+    {
+      "name": "settings",
+      "description": "User preference management for the settings domain."
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "paths": {
+    "/settings/v1/app-api/preferences": {
+      "get": {
+        "tags": ["settings"],
+        "operationId": "preferences.list",
+        "summary": "List current user preferences",
+        "description": "List preferences for the authenticated user. Supports optional namespace filtering and offset pagination.",
+        "x-sdkwork-request-context": "WebRequestContext",
+        "x-sdkwork-api-surface": "app-api",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "namespace",
+            "in": "query",
+            "required": false,
+            "description": "Filter preferences by namespace.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "description": "One-based page index for offset pagination. Default 1.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "minimum": 1,
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "description": "Page size for offset pagination. Default 20, maximum 200.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "minimum": 1,
+              "maximum": 200,
+              "default": 20
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User preference list retrieved.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserPreferenceListResponse"
+                },
+                "example": {
+                  "code": 0,
+                  "data": {
+                    "items": [
+                      {
+                        "id": 12884901888,
+                        "tenantId": 1,
+                        "userId": 1001,
+                        "namespace": "ui",
+                        "preferenceKey": "theme",
+                        "preferenceValue": { "mode": "dark" },
+                        "valueType": "object",
+                        "createdAt": "2026-07-01T02:30:00.000Z",
+                        "updatedAt": "2026-07-01T02:30:00.000Z"
+                      }
+                    ],
+                    "pageInfo": {
+                      "mode": "offset",
+                      "page": 1,
+                      "pageSize": 20,
+                      "totalItems": "1",
+                      "totalPages": 1,
+                      "hasMore": false
+                    }
+                  },
+                  "traceId": "0195f2a0-7c44-7b2e-9f3a-2a6f5d8e91ab"
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "500": { "$ref": "#/components/responses/InternalServerError" }
+        }
+      }
+    },
+    "/settings/v1/app-api/preferences/{namespace}": {
+      "get": {
+        "tags": ["settings"],
+        "operationId": "preferences.entries.list",
+        "summary": "List preferences in a namespace",
+        "description": "List the authenticated user's preferences within the specified namespace. Supports offset pagination.",
+        "x-sdkwork-request-context": "WebRequestContext",
+        "x-sdkwork-api-surface": "app-api",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          { "$ref": "#/components/parameters/NamespacePath" },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "description": "One-based page index for offset pagination. Default 1.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "minimum": 1,
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "description": "Page size for offset pagination. Default 20, maximum 200.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "minimum": 1,
+              "maximum": 200,
+              "default": 20
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Namespace preferences retrieved.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserPreferenceListResponse"
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "500": { "$ref": "#/components/responses/InternalServerError" }
+        }
+      }
+    },
+    "/settings/v1/app-api/preferences/{namespace}/{key}": {
+      "get": {
+        "tags": ["settings"],
+        "operationId": "preferences.entries.retrieve",
+        "summary": "Retrieve a single user preference",
+        "description": "Retrieve a single preference value for the authenticated user identified by namespace and key.",
+        "x-sdkwork-request-context": "WebRequestContext",
+        "x-sdkwork-api-surface": "app-api",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          { "$ref": "#/components/parameters/NamespacePath" },
+          { "$ref": "#/components/parameters/KeyPath" }
+        ],
+        "responses": {
+          "200": {
+            "description": "User preference retrieved.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserPreferenceResponse"
+                },
+                "example": {
+                  "code": 0,
+                  "data": {
+                    "item": {
+                      "id": 12884901888,
+                      "tenantId": 1,
+                      "userId": 1001,
+                      "namespace": "ui",
+                      "preferenceKey": "theme",
+                      "preferenceValue": { "mode": "dark" },
+                      "valueType": "object",
+                      "createdAt": "2026-07-01T02:30:00.000Z",
+                      "updatedAt": "2026-07-01T02:30:00.000Z"
+                    }
+                  },
+                  "traceId": "0195f2a0-7c44-7b2e-9f3a-2a6f5d8e91ab"
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "500": { "$ref": "#/components/responses/InternalServerError" }
+        }
+      },
+      "put": {
+        "tags": ["settings"],
+        "operationId": "preferences.entries.update",
+        "summary": "Update a single user preference",
+        "description": "Update a single preference value for the authenticated user identified by namespace and key.",
+        "x-sdkwork-request-context": "WebRequestContext",
+        "x-sdkwork-api-surface": "app-api",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          { "$ref": "#/components/parameters/NamespacePath" },
+          { "$ref": "#/components/parameters/KeyPath" }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserPreferenceRequest"
+              },
+              "example": {
+                "value": { "mode": "light" },
+                "valueType": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User preference updated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserPreferenceResponse"
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "409": { "$ref": "#/components/responses/Conflict" },
+          "500": { "$ref": "#/components/responses/InternalServerError" }
+        }
+      },
+      "delete": {
+        "tags": ["settings"],
+        "operationId": "preferences.entries.delete",
+        "summary": "Delete a user preference",
+        "description": "Delete a single preference for the authenticated user, restoring its default value. Returns a command envelope.",
+        "x-sdkwork-request-context": "WebRequestContext",
+        "x-sdkwork-api-surface": "app-api",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          { "$ref": "#/components/parameters/NamespacePath" },
+          { "$ref": "#/components/parameters/KeyPath" }
+        ],
+        "responses": {
+          "200": {
+            "description": "User preference deleted (default restored).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteUserPreferenceResponse"
+                },
+                "example": {
+                  "code": 0,
+                  "data": {
+                    "accepted": true,
+                    "resourceId": "12884901888"
+                  },
+                  "traceId": "0195f2a0-7c44-7b2e-9f3a-2a6f5d8e91ab"
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "500": { "$ref": "#/components/responses/InternalServerError" }
+        }
+      }
+    },
+    "/settings/v1/app-api/preferences:batchUpdate": {
+      "post": {
+        "tags": ["settings"],
+        "operationId": "preferences.batchUpdate",
+        "summary": "Batch update user preferences",
+        "description": "Apply multiple preference updates for the authenticated user in a single request. Returns a command envelope.",
+        "x-sdkwork-request-context": "WebRequestContext",
+        "x-sdkwork-api-surface": "app-api",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BatchUpdateUserPreferenceRequest"
+              },
+              "example": {
+                "updates": [
+                  {
+                    "namespace": "ui",
+                    "preferenceKey": "theme",
+                    "value": { "mode": "dark" },
+                    "valueType": "object"
+                  },
+                  {
+                    "namespace": "ui",
+                    "preferenceKey": "locale",
+                    "value": { "language": "zh-CN" },
+                    "valueType": "i18n"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Batch update accepted.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BatchUpdateUserPreferenceResponse"
+                },
+                "example": {
+                  "code": 0,
+                  "data": {
+                    "accepted": true
+                  },
+                  "traceId": "0195f2a0-7c44-7b2e-9f3a-2a6f5d8e91ab"
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "409": { "$ref": "#/components/responses/Conflict" },
+          "500": { "$ref": "#/components/responses/InternalServerError" }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "description": "User bearer token issued by SDKWork IAM. Required for all app-api operations."
+      }
+    },
+    "parameters": {
+      "NamespacePath": {
+        "name": "namespace",
+        "in": "path",
+        "required": true,
+        "description": "Preference namespace.",
+        "schema": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        }
+      },
+      "KeyPath": {
+        "name": "key",
+        "in": "path",
+        "required": true,
+        "description": "Preference key.",
+        "schema": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        }
+      }
+    },
+    "responses": {
+      "BadRequest": {
+        "description": "Validation error. ProblemDetail.code is 40001.",
+        "content": {
+          "application/problem+json": {
+            "schema": { "$ref": "#/components/schemas/ProblemDetail" },
+            "example": {
+              "type": "about:blank",
+              "title": "Bad Request",
+              "status": 400,
+              "code": 40001,
+              "detail": "Validation error",
+              "traceId": "0195f2a0-7c44-7b2e-9f3a-2a6f5d8e91ab"
+            }
+          }
+        }
+      },
+      "Unauthorized": {
+        "description": "Authentication required. ProblemDetail.code is 40101.",
+        "content": {
+          "application/problem+json": {
+            "schema": { "$ref": "#/components/schemas/ProblemDetail" },
+            "example": {
+              "type": "about:blank",
+              "title": "Unauthorized",
+              "status": 401,
+              "code": 40101,
+              "detail": "Authentication required",
+              "traceId": "0195f2a0-7c44-7b2e-9f3a-2a6f5d8e91ab"
+            }
+          }
+        }
+      },
+      "Forbidden": {
+        "description": "Permission denied. ProblemDetail.code is 40301.",
+        "content": {
+          "application/problem+json": {
+            "schema": { "$ref": "#/components/schemas/ProblemDetail" },
+            "example": {
+              "type": "about:blank",
+              "title": "Forbidden",
+              "status": 403,
+              "code": 40301,
+              "detail": "Permission required",
+              "traceId": "0195f2a0-7c44-7b2e-9f3a-2a6f5d8e91ab"
+            }
+          }
+        }
+      },
+      "NotFound": {
+        "description": "Resource not found. ProblemDetail.code is 40401.",
+        "content": {
+          "application/problem+json": {
+            "schema": { "$ref": "#/components/schemas/ProblemDetail" },
+            "example": {
+              "type": "about:blank",
+              "title": "Not Found",
+              "status": 404,
+              "code": 40401,
+              "detail": "Resource not found",
+              "traceId": "0195f2a0-7c44-7b2e-9f3a-2a6f5d8e91ab"
+            }
+          }
+        }
+      },
+      "Conflict": {
+        "description": "Conflicting state. ProblemDetail.code is 40901.",
+        "content": {
+          "application/problem+json": {
+            "schema": { "$ref": "#/components/schemas/ProblemDetail" },
+            "example": {
+              "type": "about:blank",
+              "title": "Conflict",
+              "status": 409,
+              "code": 40901,
+              "detail": "Conflict",
+              "traceId": "0195f2a0-7c44-7b2e-9f3a-2a6f5d8e91ab"
+            }
+          }
+        }
+      },
+      "InternalServerError": {
+        "description": "Internal server error. ProblemDetail.code is 50001.",
+        "content": {
+          "application/problem+json": {
+            "schema": { "$ref": "#/components/schemas/ProblemDetail" },
+            "example": {
+              "type": "about:blank",
+              "title": "Internal Server Error",
+              "status": 500,
+              "code": 50001,
+              "detail": "Internal error",
+              "traceId": "0195f2a0-7c44-7b2e-9f3a-2a6f5d8e91ab"
+            }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "PreferenceValueType": {
+        "type": "string",
+        "enum": ["string", "number", "boolean", "object", "array", "i18n"],
+        "description": "Discriminator for how preferenceValue should be interpreted."
+      },
+      "UserPreference": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "tenantId", "userId", "namespace", "preferenceKey", "preferenceValue", "valueType", "createdAt", "updatedAt"],
+        "description": "A single user preference entry.",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Unique preference identifier."
+          },
+          "tenantId": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Owning tenant identifier."
+          },
+          "userId": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Owning user identifier."
+          },
+          "namespace": {
+            "type": "string",
+            "description": "Preference namespace, for example 'ui' or 'editor'."
+          },
+          "preferenceKey": {
+            "type": "string",
+            "description": "Preference key within the namespace."
+          },
+          "preferenceValue": {
+            "type": "object",
+            "additionalProperties": true,
+            "description": "Preference payload. Shape is governed by valueType."
+          },
+          "valueType": {
+            "$ref": "#/components/schemas/PreferenceValueType"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Creation timestamp (UTC)."
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Last update timestamp (UTC)."
+          }
+        }
+      },
+      "UpdateUserPreferenceRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["value", "valueType"],
+        "description": "Request body for updating a single user preference.",
+        "properties": {
+          "value": {
+            "type": "object",
+            "additionalProperties": true,
+            "description": "New preference payload."
+          },
+          "valueType": {
+            "$ref": "#/components/schemas/PreferenceValueType"
+          }
+        }
+      },
+      "BatchUpdateItem": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["namespace", "preferenceKey", "value", "valueType"],
+        "description": "A single update entry within a batch update request.",
+        "properties": {
+          "namespace": {
+            "type": "string"
+          },
+          "preferenceKey": {
+            "type": "string"
+          },
+          "value": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "valueType": {
+            "$ref": "#/components/schemas/PreferenceValueType"
+          }
+        }
+      },
+      "BatchUpdateUserPreferenceRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["updates"],
+        "description": "Request body for batch updating user preferences.",
+        "properties": {
+          "updates": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 100,
+            "items": {
+              "$ref": "#/components/schemas/BatchUpdateItem"
+            }
+          }
+        }
+      },
+      "SdkWorkApiResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["code", "data", "traceId"],
+        "description": "Canonical SDKWork success response envelope. See API_SPEC.md §15.1.",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Numeric success result code. MUST be 0 on HTTP 2xx.",
+            "enum": [0],
+            "default": 0,
+            "minimum": 0,
+            "maximum": 0
+          },
+          "data": {
+            "description": "Operation-specific payload. Typed per operation through allOf or explicit schema refs."
+          },
+          "traceId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Server-owned request correlation id. Clients MUST NOT supply this value."
+          }
+        }
+      },
+      "SdkWorkResourceData": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["item"],
+        "description": "Single-resource data payload shape.",
+        "properties": {
+          "item": {
+            "description": "Typed domain resource for the operation."
+          }
+        }
+      },
+      "SdkWorkPageData": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["items", "pageInfo"],
+        "description": "List/search data payload shape.",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {}
+          },
+          "pageInfo": {
+            "$ref": "#/components/schemas/PageInfo"
+          }
+        }
+      },
+      "PageInfo": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["mode"],
+        "description": "Pagination metadata for SdkWorkPageData. See API_SPEC.md §16.",
+        "properties": {
+          "mode": {
+            "type": "string",
+            "enum": ["offset", "cursor"],
+            "description": "Pagination mode used for this response."
+          },
+          "page": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Current one-based page index when mode is offset."
+          },
+          "pageSize": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 200,
+            "description": "Effective page size for this response."
+          },
+          "totalItems": {
+            "type": "string",
+            "format": "int64",
+            "pattern": "^[0-9]+$",
+            "x-sdkwork-int64-string": true,
+            "description": "Total rows matching the filter when mode is offset."
+          },
+          "totalPages": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Total pages when mode is offset."
+          },
+          "nextCursor": {
+            "type": ["string", "null"],
+            "description": "Opaque next-page token when mode is cursor and hasMore is true."
+          },
+          "hasMore": {
+            "type": "boolean",
+            "description": "Whether another page exists."
+          }
+        }
+      },
+      "SdkWorkCommandData": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["accepted"],
+        "description": "Command/mutation data payload shape.",
+        "properties": {
+          "accepted": {
+            "type": "boolean",
+            "const": true
+          },
+          "resourceId": {
+            "type": "string",
+            "description": "Optional resource identifier affected by the command."
+          },
+          "status": {
+            "type": "string",
+            "description": "Optional command status."
+          }
+        }
+      },
+      "ProblemDetail": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": ["type", "title", "status", "code", "traceId"],
+        "description": "RFC 9457 problem detail for HTTP 4xx/5xx responses. See API_SPEC.md §15.2.",
+        "properties": {
+          "type": {
+            "type": "string",
+            "format": "uri-reference"
+          },
+          "title": {
+            "type": "string"
+          },
+          "status": {
+            "type": "integer",
+            "minimum": 100,
+            "maximum": 599
+          },
+          "code": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Numeric error result code. MUST be non-zero. See API_SPEC.md §15.3.",
+            "minimum": 40001,
+            "maximum": 79999
+          },
+          "detail": {
+            "type": "string"
+          },
+          "instance": {
+            "type": "string",
+            "description": "Request endpoint occurrence in the form {METHOD} {routeTemplate}."
+          },
+          "operationId": {
+            "type": "string",
+            "description": "OpenAPI operation id for the failing request when resolved by the web framework."
+          },
+          "traceId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Server-owned request correlation id. Same semantics as SdkWorkApiResponse.traceId."
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FieldError"
+            }
+          }
+        }
+      },
+      "FieldError": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["field", "message"],
+        "description": "Field-level validation error.",
+        "properties": {
+          "field": {
+            "type": "string",
+            "description": "JSON Pointer or dot-path to the invalid field."
+          },
+          "message": {
+            "type": "string",
+            "description": "Safe validation message for logs and optional UI display."
+          },
+          "code": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": 40011,
+            "maximum": 40099,
+            "description": "Optional field-level validation subcode when ProblemDetail.code is 40001."
+          }
+        }
+      },
+      "UserPreferenceResponse": {
+        "description": "Single user preference response envelope.",
+        "allOf": [
+          { "$ref": "#/components/schemas/SdkWorkApiResponse" },
+          {
+            "type": "object",
+            "required": ["data"],
+            "properties": {
+              "data": {
+                "allOf": [
+                  { "$ref": "#/components/schemas/SdkWorkResourceData" },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "item": {
+                        "$ref": "#/components/schemas/UserPreference"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "UserPreferenceListResponse": {
+        "description": "User preference list response envelope.",
+        "allOf": [
+          { "$ref": "#/components/schemas/SdkWorkApiResponse" },
+          {
+            "type": "object",
+            "required": ["data"],
+            "properties": {
+              "data": {
+                "allOf": [
+                  { "$ref": "#/components/schemas/SdkWorkPageData" },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "items": {
+                        "type": "array",
+                        "items": {
+                          "$ref": "#/components/schemas/UserPreference"
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "DeleteUserPreferenceResponse": {
+        "description": "Delete user preference command response envelope.",
+        "allOf": [
+          { "$ref": "#/components/schemas/SdkWorkApiResponse" },
+          {
+            "type": "object",
+            "required": ["data"],
+            "properties": {
+              "data": {
+                "$ref": "#/components/schemas/SdkWorkCommandData"
+              }
+            }
+          }
+        ]
+      },
+      "BatchUpdateUserPreferenceResponse": {
+        "description": "Batch update user preferences command response envelope.",
+        "allOf": [
+          { "$ref": "#/components/schemas/SdkWorkApiResponse" },
+          {
+            "type": "object",
+            "required": ["data"],
+            "properties": {
+              "data": {
+                "$ref": "#/components/schemas/SdkWorkCommandData"
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

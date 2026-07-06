@@ -1,0 +1,14 @@
+[package]
+name = "sdkwork-settings-gateway-assembly"
+edition.workspace = true
+license.workspace = true
+version.workspace = true
+description = "SDKWork Settings gateway assembly manifest"
+
+[lib]
+name = "sdkwork_settings_gateway_assembly"
+path = "src/lib.rs"
+
+[dependencies]
+serde.workspace = true
+serde_json.workspace = true

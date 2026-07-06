@@ -1,0 +1,25 @@
+schema_version: 1
+kind: sdkwork.database.drift-policy
+module_id: settings
+owner_team: settings-platform
+# 漂移观测策略:初始化阶段只观测、不阻断(避免阻断开发流程)
+enforcement_mode: observe
+check_interval_sec: 60
+# 检查范围:列存在性、列类型、索引存在性、约束存在性
+checks:
+  - kind: table_exists
+    table: stg_user_preference
+  - kind: table_exists
+    table: stg_tenant_config
+  - kind: table_exists
+    table: stg_system_setting
+  - kind: table_exists
+    table: stg_config_revision
+  - kind: column_exists
+    table: stg_user_preference
+    column: tenant_id
+  - kind: column_exists
+    table: stg_user_preference
+    column: preference_value
+# GA 后切换为 enforce 模式
+future_enforcement_mode: enforce

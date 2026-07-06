@@ -1,0 +1,5 @@
+# Generator-owned artifacts
+sdkwork-generator-*.json
+
+# Runtime-owned artifacts
+runtime-state.json

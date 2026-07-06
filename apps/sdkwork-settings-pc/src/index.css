@@ -1,0 +1,50 @@
+@import "tailwindcss";
+
+/* 深色模式变体:通过 html 上的 .dark 类切换 */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  /* 字体栈:对齐主流浏览器设置界面 */
+  --font-sans: 'SF Pro Text', -apple-system, 'PingFang SC', 'Microsoft YaHei',
+    'Helvetica Neue', Arial, sans-serif;
+}
+
+@layer base {
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    @apply bg-gray-50 text-gray-900 antialiased;
+  }
+
+  .dark body {
+    @apply bg-neutral-900 text-gray-100;
+  }
+}
+
+/* 细滚动条,贴近浏览器原生设置界面 */
+@layer utilities {
+  .settings-scrollbar::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  .settings-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .settings-scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-gray-300 rounded-full border-2 border-solid border-transparent bg-clip-content;
+  }
+  .settings-scrollbar::-webkit-scrollbar-thumb:hover {
+    @apply bg-gray-400;
+  }
+  .dark .settings-scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-neutral-700;
+  }
+  .dark .settings-scrollbar::-webkit-scrollbar-thumb:hover {
+    @apply bg-neutral-600;
+  }
+}

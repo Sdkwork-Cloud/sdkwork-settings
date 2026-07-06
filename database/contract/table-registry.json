@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "kind": "sdkwork.database.table-registry",
+  "tables": [
+    {
+      "table_name": "stg_user_preference",
+      "owner": "settings-platform",
+      "compliance_level": "L3",
+      "lifecycle_status": "active"
+    },
+    {
+      "table_name": "stg_tenant_config",
+      "owner": "settings-platform",
+      "compliance_level": "L3",
+      "lifecycle_status": "active"
+    },
+    {
+      "table_name": "stg_system_setting",
+      "owner": "settings-platform",
+      "compliance_level": "L3",
+      "lifecycle_status": "active"
+    },
+    {
+      "table_name": "stg_config_revision",
+      "owner": "settings-platform",
+      "compliance_level": "L3",
+      "lifecycle_status": "active"
+    }
+  ]
+}
