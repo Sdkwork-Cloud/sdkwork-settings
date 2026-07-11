@@ -5,10 +5,9 @@ members = [
     "crates/sdkwork-settings-web-bootstrap",
     "crates/sdkwork-settings-gateway-assembly",
     "crates/sdkwork-settings-service-host",
+    "crates/sdkwork-settings-standalone-gateway",
     "crates/sdkwork-routes-settings-app-api",
     "crates/sdkwork-routes-settings-backend-api",
-    "services/sdkwork-settings-api-server",
-    "services/sdkwork-settings-standalone-gateway",
 ]
 resolver = "2"
 

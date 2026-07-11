@@ -73,8 +73,7 @@ pub fn routes() -> Router<Arc<SettingsServiceHost>> {
 pub struct ListQuery {
     pub namespace: Option<String>,
     pub page: Option<i32>,
-    #[serde(rename = "pageSize", alias = "page_size")]
-    pub page_size: Option<i32>,
+        pub page_size: Option<i32>,
 }
 
 // ===== Handler =====
@@ -498,4 +497,8 @@ impl WithStatusExt for Response {
         *self.status_mut() = status;
         self
     }
+}
+
+pub fn gateway_mount() -> axum::Router {
+    axum::Router::new()
 }

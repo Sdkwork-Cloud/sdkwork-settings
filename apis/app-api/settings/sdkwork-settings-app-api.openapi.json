@@ -25,7 +25,9 @@
   "paths": {
     "/settings/v1/app-api/preferences": {
       "get": {
-        "tags": ["settings"],
+        "tags": [
+          "settings"
+        ],
         "operationId": "preferences.list",
         "summary": "List current user preferences",
         "description": "List preferences for the authenticated user. Supports optional namespace filtering and offset pagination.",
@@ -59,7 +61,7 @@
             }
           },
           {
-            "name": "pageSize",
+            "name": "page_size",
             "in": "query",
             "required": false,
             "description": "Page size for offset pagination. Default 20, maximum 200.",
@@ -90,7 +92,9 @@
                         "userId": 1001,
                         "namespace": "ui",
                         "preferenceKey": "theme",
-                        "preferenceValue": { "mode": "dark" },
+                        "preferenceValue": {
+                          "mode": "dark"
+                        },
                         "valueType": "object",
                         "createdAt": "2026-07-01T02:30:00.000Z",
                         "updatedAt": "2026-07-01T02:30:00.000Z"
@@ -110,16 +114,26 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/BadRequest" },
-          "401": { "$ref": "#/components/responses/Unauthorized" },
-          "403": { "$ref": "#/components/responses/Forbidden" },
-          "500": { "$ref": "#/components/responses/InternalServerError" }
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
         }
       }
     },
     "/settings/v1/app-api/preferences/{namespace}": {
       "get": {
-        "tags": ["settings"],
+        "tags": [
+          "settings"
+        ],
         "operationId": "preferences.entries.list",
         "summary": "List preferences in a namespace",
         "description": "List the authenticated user's preferences within the specified namespace. Supports offset pagination.",
@@ -131,7 +145,9 @@
           }
         ],
         "parameters": [
-          { "$ref": "#/components/parameters/NamespacePath" },
+          {
+            "$ref": "#/components/parameters/NamespacePath"
+          },
           {
             "name": "page",
             "in": "query",
@@ -145,7 +161,7 @@
             }
           },
           {
-            "name": "pageSize",
+            "name": "page_size",
             "in": "query",
             "required": false,
             "description": "Page size for offset pagination. Default 20, maximum 200.",
@@ -169,17 +185,29 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/BadRequest" },
-          "401": { "$ref": "#/components/responses/Unauthorized" },
-          "403": { "$ref": "#/components/responses/Forbidden" },
-          "404": { "$ref": "#/components/responses/NotFound" },
-          "500": { "$ref": "#/components/responses/InternalServerError" }
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
         }
       }
     },
     "/settings/v1/app-api/preferences/{namespace}/{key}": {
       "get": {
-        "tags": ["settings"],
+        "tags": [
+          "settings"
+        ],
         "operationId": "preferences.entries.retrieve",
         "summary": "Retrieve a single user preference",
         "description": "Retrieve a single preference value for the authenticated user identified by namespace and key.",
@@ -191,8 +219,12 @@
           }
         ],
         "parameters": [
-          { "$ref": "#/components/parameters/NamespacePath" },
-          { "$ref": "#/components/parameters/KeyPath" }
+          {
+            "$ref": "#/components/parameters/NamespacePath"
+          },
+          {
+            "$ref": "#/components/parameters/KeyPath"
+          }
         ],
         "responses": {
           "200": {
@@ -211,7 +243,9 @@
                       "userId": 1001,
                       "namespace": "ui",
                       "preferenceKey": "theme",
-                      "preferenceValue": { "mode": "dark" },
+                      "preferenceValue": {
+                        "mode": "dark"
+                      },
                       "valueType": "object",
                       "createdAt": "2026-07-01T02:30:00.000Z",
                       "updatedAt": "2026-07-01T02:30:00.000Z"
@@ -222,15 +256,27 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/BadRequest" },
-          "401": { "$ref": "#/components/responses/Unauthorized" },
-          "403": { "$ref": "#/components/responses/Forbidden" },
-          "404": { "$ref": "#/components/responses/NotFound" },
-          "500": { "$ref": "#/components/responses/InternalServerError" }
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
         }
       },
       "put": {
-        "tags": ["settings"],
+        "tags": [
+          "settings"
+        ],
         "operationId": "preferences.entries.update",
         "summary": "Update a single user preference",
         "description": "Update a single preference value for the authenticated user identified by namespace and key.",
@@ -242,8 +288,12 @@
           }
         ],
         "parameters": [
-          { "$ref": "#/components/parameters/NamespacePath" },
-          { "$ref": "#/components/parameters/KeyPath" }
+          {
+            "$ref": "#/components/parameters/NamespacePath"
+          },
+          {
+            "$ref": "#/components/parameters/KeyPath"
+          }
         ],
         "requestBody": {
           "required": true,
@@ -253,7 +303,9 @@
                 "$ref": "#/components/schemas/UpdateUserPreferenceRequest"
               },
               "example": {
-                "value": { "mode": "light" },
+                "value": {
+                  "mode": "light"
+                },
                 "valueType": "object"
               }
             }
@@ -270,16 +322,30 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/BadRequest" },
-          "401": { "$ref": "#/components/responses/Unauthorized" },
-          "403": { "$ref": "#/components/responses/Forbidden" },
-          "404": { "$ref": "#/components/responses/NotFound" },
-          "409": { "$ref": "#/components/responses/Conflict" },
-          "500": { "$ref": "#/components/responses/InternalServerError" }
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
         }
       },
       "delete": {
-        "tags": ["settings"],
+        "tags": [
+          "settings"
+        ],
         "operationId": "preferences.entries.delete",
         "summary": "Delete a user preference",
         "description": "Delete a single preference for the authenticated user, restoring its default value. Returns a command envelope.",
@@ -291,8 +357,12 @@
           }
         ],
         "parameters": [
-          { "$ref": "#/components/parameters/NamespacePath" },
-          { "$ref": "#/components/parameters/KeyPath" }
+          {
+            "$ref": "#/components/parameters/NamespacePath"
+          },
+          {
+            "$ref": "#/components/parameters/KeyPath"
+          }
         ],
         "responses": {
           "200": {
@@ -313,17 +383,29 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/BadRequest" },
-          "401": { "$ref": "#/components/responses/Unauthorized" },
-          "403": { "$ref": "#/components/responses/Forbidden" },
-          "404": { "$ref": "#/components/responses/NotFound" },
-          "500": { "$ref": "#/components/responses/InternalServerError" }
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
         }
       }
     },
     "/settings/v1/app-api/preferences:batchUpdate": {
       "post": {
-        "tags": ["settings"],
+        "tags": [
+          "settings"
+        ],
         "operationId": "preferences.batchUpdate",
         "summary": "Batch update user preferences",
         "description": "Apply multiple preference updates for the authenticated user in a single request. Returns a command envelope.",
@@ -346,13 +428,17 @@
                   {
                     "namespace": "ui",
                     "preferenceKey": "theme",
-                    "value": { "mode": "dark" },
+                    "value": {
+                      "mode": "dark"
+                    },
                     "valueType": "object"
                   },
                   {
                     "namespace": "ui",
                     "preferenceKey": "locale",
-                    "value": { "language": "zh-CN" },
+                    "value": {
+                      "language": "zh-CN"
+                    },
                     "valueType": "i18n"
                   }
                 ]
@@ -378,12 +464,24 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/BadRequest" },
-          "401": { "$ref": "#/components/responses/Unauthorized" },
-          "403": { "$ref": "#/components/responses/Forbidden" },
-          "404": { "$ref": "#/components/responses/NotFound" },
-          "409": { "$ref": "#/components/responses/Conflict" },
-          "500": { "$ref": "#/components/responses/InternalServerError" }
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
         }
       }
     }
@@ -426,7 +524,9 @@
         "description": "Validation error. ProblemDetail.code is 40001.",
         "content": {
           "application/problem+json": {
-            "schema": { "$ref": "#/components/schemas/ProblemDetail" },
+            "schema": {
+              "$ref": "#/components/schemas/ProblemDetail"
+            },
             "example": {
               "type": "about:blank",
               "title": "Bad Request",
@@ -442,7 +542,9 @@
         "description": "Authentication required. ProblemDetail.code is 40101.",
         "content": {
           "application/problem+json": {
-            "schema": { "$ref": "#/components/schemas/ProblemDetail" },
+            "schema": {
+              "$ref": "#/components/schemas/ProblemDetail"
+            },
             "example": {
               "type": "about:blank",
               "title": "Unauthorized",
@@ -458,7 +560,9 @@
         "description": "Permission denied. ProblemDetail.code is 40301.",
         "content": {
           "application/problem+json": {
-            "schema": { "$ref": "#/components/schemas/ProblemDetail" },
+            "schema": {
+              "$ref": "#/components/schemas/ProblemDetail"
+            },
             "example": {
               "type": "about:blank",
               "title": "Forbidden",
@@ -474,7 +578,9 @@
         "description": "Resource not found. ProblemDetail.code is 40401.",
         "content": {
           "application/problem+json": {
-            "schema": { "$ref": "#/components/schemas/ProblemDetail" },
+            "schema": {
+              "$ref": "#/components/schemas/ProblemDetail"
+            },
             "example": {
               "type": "about:blank",
               "title": "Not Found",
@@ -490,7 +596,9 @@
         "description": "Conflicting state. ProblemDetail.code is 40901.",
         "content": {
           "application/problem+json": {
-            "schema": { "$ref": "#/components/schemas/ProblemDetail" },
+            "schema": {
+              "$ref": "#/components/schemas/ProblemDetail"
+            },
             "example": {
               "type": "about:blank",
               "title": "Conflict",
@@ -506,7 +614,9 @@
         "description": "Internal server error. ProblemDetail.code is 50001.",
         "content": {
           "application/problem+json": {
-            "schema": { "$ref": "#/components/schemas/ProblemDetail" },
+            "schema": {
+              "$ref": "#/components/schemas/ProblemDetail"
+            },
             "example": {
               "type": "about:blank",
               "title": "Internal Server Error",
@@ -522,13 +632,30 @@
     "schemas": {
       "PreferenceValueType": {
         "type": "string",
-        "enum": ["string", "number", "boolean", "object", "array", "i18n"],
+        "enum": [
+          "string",
+          "number",
+          "boolean",
+          "object",
+          "array",
+          "i18n"
+        ],
         "description": "Discriminator for how preferenceValue should be interpreted."
       },
       "UserPreference": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["id", "tenantId", "userId", "namespace", "preferenceKey", "preferenceValue", "valueType", "createdAt", "updatedAt"],
+        "required": [
+          "id",
+          "tenantId",
+          "userId",
+          "namespace",
+          "preferenceKey",
+          "preferenceValue",
+          "valueType",
+          "createdAt",
+          "updatedAt"
+        ],
         "description": "A single user preference entry.",
         "properties": {
           "id": {
@@ -577,7 +704,10 @@
       "UpdateUserPreferenceRequest": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["value", "valueType"],
+        "required": [
+          "value",
+          "valueType"
+        ],
         "description": "Request body for updating a single user preference.",
         "properties": {
           "value": {
@@ -593,7 +723,12 @@
       "BatchUpdateItem": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["namespace", "preferenceKey", "value", "valueType"],
+        "required": [
+          "namespace",
+          "preferenceKey",
+          "value",
+          "valueType"
+        ],
         "description": "A single update entry within a batch update request.",
         "properties": {
           "namespace": {
@@ -614,7 +749,9 @@
       "BatchUpdateUserPreferenceRequest": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["updates"],
+        "required": [
+          "updates"
+        ],
         "description": "Request body for batch updating user preferences.",
         "properties": {
           "updates": {
@@ -630,14 +767,20 @@
       "SdkWorkApiResponse": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["code", "data", "traceId"],
+        "required": [
+          "code",
+          "data",
+          "traceId"
+        ],
         "description": "Canonical SDKWork success response envelope. See API_SPEC.md §15.1.",
         "properties": {
           "code": {
             "type": "integer",
             "format": "int32",
             "description": "Numeric success result code. MUST be 0 on HTTP 2xx.",
-            "enum": [0],
+            "enum": [
+              0
+            ],
             "default": 0,
             "minimum": 0,
             "maximum": 0
@@ -655,7 +798,9 @@
       "SdkWorkResourceData": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["item"],
+        "required": [
+          "item"
+        ],
         "description": "Single-resource data payload shape.",
         "properties": {
           "item": {
@@ -666,7 +811,10 @@
       "SdkWorkPageData": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["items", "pageInfo"],
+        "required": [
+          "items",
+          "pageInfo"
+        ],
         "description": "List/search data payload shape.",
         "properties": {
           "items": {
@@ -681,12 +829,17 @@
       "PageInfo": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["mode"],
+        "required": [
+          "mode"
+        ],
         "description": "Pagination metadata for SdkWorkPageData. See API_SPEC.md §16.",
         "properties": {
           "mode": {
             "type": "string",
-            "enum": ["offset", "cursor"],
+            "enum": [
+              "offset",
+              "cursor"
+            ],
             "description": "Pagination mode used for this response."
           },
           "page": {
@@ -713,7 +866,10 @@
             "description": "Total pages when mode is offset."
           },
           "nextCursor": {
-            "type": ["string", "null"],
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "Opaque next-page token when mode is cursor and hasMore is true."
           },
           "hasMore": {
@@ -725,7 +881,9 @@
       "SdkWorkCommandData": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["accepted"],
+        "required": [
+          "accepted"
+        ],
         "description": "Command/mutation data payload shape.",
         "properties": {
           "accepted": {
@@ -745,7 +903,13 @@
       "ProblemDetail": {
         "type": "object",
         "additionalProperties": true,
-        "required": ["type", "title", "status", "code", "traceId"],
+        "required": [
+          "type",
+          "title",
+          "status",
+          "code",
+          "traceId"
+        ],
         "description": "RFC 9457 problem detail for HTTP 4xx/5xx responses. See API_SPEC.md §15.2.",
         "properties": {
           "type": {
@@ -794,7 +958,10 @@
       "FieldError": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["field", "message"],
+        "required": [
+          "field",
+          "message"
+        ],
         "description": "Field-level validation error.",
         "properties": {
           "field": {
@@ -817,14 +984,20 @@
       "UserPreferenceResponse": {
         "description": "Single user preference response envelope.",
         "allOf": [
-          { "$ref": "#/components/schemas/SdkWorkApiResponse" },
+          {
+            "$ref": "#/components/schemas/SdkWorkApiResponse"
+          },
           {
             "type": "object",
-            "required": ["data"],
+            "required": [
+              "data"
+            ],
             "properties": {
               "data": {
                 "allOf": [
-                  { "$ref": "#/components/schemas/SdkWorkResourceData" },
+                  {
+                    "$ref": "#/components/schemas/SdkWorkResourceData"
+                  },
                   {
                     "type": "object",
                     "additionalProperties": false,
@@ -843,14 +1016,20 @@
       "UserPreferenceListResponse": {
         "description": "User preference list response envelope.",
         "allOf": [
-          { "$ref": "#/components/schemas/SdkWorkApiResponse" },
+          {
+            "$ref": "#/components/schemas/SdkWorkApiResponse"
+          },
           {
             "type": "object",
-            "required": ["data"],
+            "required": [
+              "data"
+            ],
             "properties": {
               "data": {
                 "allOf": [
-                  { "$ref": "#/components/schemas/SdkWorkPageData" },
+                  {
+                    "$ref": "#/components/schemas/SdkWorkPageData"
+                  },
                   {
                     "type": "object",
                     "additionalProperties": false,
@@ -872,10 +1051,14 @@
       "DeleteUserPreferenceResponse": {
         "description": "Delete user preference command response envelope.",
         "allOf": [
-          { "$ref": "#/components/schemas/SdkWorkApiResponse" },
+          {
+            "$ref": "#/components/schemas/SdkWorkApiResponse"
+          },
           {
             "type": "object",
-            "required": ["data"],
+            "required": [
+              "data"
+            ],
             "properties": {
               "data": {
                 "$ref": "#/components/schemas/SdkWorkCommandData"
@@ -887,10 +1070,14 @@
       "BatchUpdateUserPreferenceResponse": {
         "description": "Batch update user preferences command response envelope.",
         "allOf": [
-          { "$ref": "#/components/schemas/SdkWorkApiResponse" },
+          {
+            "$ref": "#/components/schemas/SdkWorkApiResponse"
+          },
           {
             "type": "object",
-            "required": ["data"],
+            "required": [
+              "data"
+            ],
             "properties": {
               "data": {
                 "$ref": "#/components/schemas/SdkWorkCommandData"

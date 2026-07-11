@@ -1663,12 +1663,15 @@ name = "sdkwork-iam-bootstrap"
 version = "0.1.0"
 dependencies = [
  "aes-gcm",
+ "argon2",
  "base64",
  "chrono",
  "rand_core 0.6.4",
+ "rsa",
  "sdkwork-database-id",
  "sdkwork-iam-context-service",
  "sdkwork-iam-module-registry",
+ "serde_json",
  "sha2",
  "sqlx",
  "uuid",
@@ -1766,22 +1769,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "sdkwork-settings-api-server"
-version = "0.1.0"
-dependencies = [
- "dotenvy",
- "sdkwork-database-config",
- "sdkwork-database-sqlx",
- "sdkwork-settings-database-host",
- "sdkwork-settings-service-host",
- "sdkwork-settings-web-bootstrap",
- "sdkwork-web-bootstrap",
- "tokio",
- "tracing",
- "tracing-subscriber",
-]
-
-[[package]]
 name = "sdkwork-settings-contract"
 version = "0.1.0"
 dependencies = [
@@ -1807,8 +1794,13 @@ dependencies = [
 name = "sdkwork-settings-gateway-assembly"
 version = "0.1.0"
 dependencies = [
+ "axum",
+ "sdkwork-routes-settings-app-api",
+ "sdkwork-routes-settings-backend-api",
+ "sdkwork-settings-web-bootstrap",
  "serde",
  "serde_json",
+ "tokio",
 ]
 
 [[package]]
@@ -1835,6 +1827,7 @@ dependencies = [
  "sdkwork-database-config",
  "sdkwork-database-sqlx",
  "sdkwork-settings-database-host",
+ "sdkwork-settings-gateway-assembly",
  "sdkwork-settings-service-host",
  "sdkwork-settings-web-bootstrap",
  "sdkwork-web-bootstrap",

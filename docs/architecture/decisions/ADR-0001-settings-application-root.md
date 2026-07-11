@@ -1,90 +1,140 @@
 # ADR-0001: Settings Application Root Architecture
 
 | Field | Value |
-|-------|-------|
+| --- | --- |
 | ADR Number | 0001 |
 | Title | Settings Application Root Architecture |
 | Status | Accepted |
 | Date | 2026-07-01 |
+| Updated | 2026-07-08 |
 | Deciders | SDKWork Architecture |
 
 ## Context
 
-SDKWork Settings 是一个新的配置中心应用,需要从零开始建立。当前 SDKWork 工作空间已有多个参考应用(sdkwork-im、sdkwork-drive、sdkwork-iam、sdkwork-id),它们都遵循 sdkwork-specs 标准规范。Settings 需要对齐这些标准,并作为配置中心为其他应用提供统一的配置管理能力。
+SDKWork Settings is a configuration center application. It must provide one reusable settings capability for SDKWork PC, H5, Flutter, mini program, native mobile, and backend consumers instead of letting every application reimplement tenant, system, user, and locale configuration.
+
+The repository is an unreleased SDKWork application root, so it should align directly to the current `sdkwork-specs` standards without preserving retired listener names, split-mode profile segments, or compatibility aliases.
 
 ## Decision
 
-Settings 应用采用以下根架构:
-
 ### 1. Application Identity
 
-- Application Code: `settings`
+- Application code: `settings`
 - Domain: `system`
-- App Type: `APP_HTML`(Web 应用)
-- Deployment Profiles: `cloud` + `standalone`
-- Default Profile: `cloud`
+- Application type: web application
+- Deployment profiles: `standalone` and `cloud`
+- Topology profile id format: `<deploymentProfile>.<environment>`
+- Default development profile: `standalone.development`
 
 ### 2. Application Surfaces
 
-- **app-api**: 用户偏好管理,用户 Token 认证
-- **backend-api**: 租户/系统配置管理,管理员 Token 认证
+| Surface | Purpose | Auth context |
+| --- | --- | --- |
+| `app-api` | Current-user preference management | user token and tenant/user request context |
+| `backend-api` | Tenant and system configuration management | operator token and tenant/system permissions |
 
-### 3. Repository Structure
+Both surfaces are exposed through `application.public-ingress`.
 
-采用 SDKWORK_WORKSPACE_SPEC 标准目录字典:
-- `crates/`: Rust 契约、路由适配器、运行时服务库
-- `services/`: 可运行的 Rust 服务进程
-- `apps/sdkwork-settings-pc/`: PC 浏览器/桌面应用
-- `apis/`: OpenAPI 契约权威
-- `sdks/`: 生成的 SDK 家族
-- `database/`: 数据库契约与生命周期
-- `configs/`, `deployments/`, `scripts/`, `tools/`, `docs/`, `tests/`
+### 3. Runtime Ingress
 
-### 4. Crate 划分
+Settings uses `sdkwork-settings-standalone-gateway` as the active application public ingress. The gateway calls `sdkwork-settings-gateway-assembly` to compose Settings route crates.
 
-| Crate | 职责 |
-|-------|------|
-| `sdkwork-settings-contract` | 领域契约、DTO、错误类型 |
-| `sdkwork-settings-database-host` | 数据库模块引导、schema 注册 |
-| `sdkwork-settings-web-bootstrap` | Web 框架引导、路由装配 |
-| `sdkwork-settings-gateway-assembly` | 网关装配清单 |
-| `sdkwork-settings-service-host` | 进程内服务容器 |
-| `sdkwork-routes-settings-app-api` | app-api 路由 crate |
-| `sdkwork-routes-settings-backend-api` | backend-api 路由 crate |
-| `sdkwork-settings-api-server` | HTTP 服务器进程 |
-| `sdkwork-settings-standalone-gateway` | standalone 网关 |
+Retired `*-api-server` listeners must not be used as default dev, release, topology, or deployment ingress.
 
-### 5. Database Tables
+The current Settings cloud profile packages platform API gateway configuration through `sdkwork-api-cloud-gateway` for `platform.api-gateway`. It does not introduce split mode or multiple application-plane HTTP listeners.
 
-- `stg_user_preference`: 用户偏好(tenant_id, user_id, namespace, preference_key, preference_value)
-- `stg_tenant_config`: 租户配置(tenant_id, namespace, config_key, config_value)
-- `stg_system_setting`: 系统设置(namespace, setting_key, setting_value, scope)
-- `stg_config_revision`: 配置版本历史(配置变更审计)
-- 表前缀 `stg_` 遵循 DATABASE_SPEC 表命名规范。
+### 4. Repository Structure
 
-### 6. Framework Integration
+The application root follows the SDKWork workspace dictionary:
 
-- **强制接入**: sdkwork-web-framework, sdkwork-database, sdkwork-utils, sdkwork-appbase, sdkwork-iam, sdkwork-drive
-- **延后接入**: sdkwork-discovery, sdkwork-rpc-framework(无 RPC 服务)
+| Directory | Responsibility |
+| --- | --- |
+| `apis/` | Authored OpenAPI authorities |
+| `apps/sdkwork-settings-pc/` | PC browser and desktop app root |
+| `crates/` | Rust contracts, route adapters, service host, gateway assembly, and application ingress |
+| `configs/` | Safe source-controlled topology and config templates |
+| `deployments/` | Deployment descriptors |
+| `docs/` | Product, architecture, decision, and operational documentation |
+| `sdks/` | SDK family workspaces and generated SDK artifacts |
+| `specs/` | Repository/application machine contracts |
+| `tests/` | Contract and integration verification |
+
+`services/` is reserved for future non-HTTP workers or schedulers. It is not the home of the active Settings HTTP ingress.
+
+### 5. Rust Crate Split
+
+| Crate | Responsibility |
+| --- | --- |
+| `sdkwork-settings-contract` | Domain DTOs, commands, value objects, and typed errors |
+| `sdkwork-settings-database-host` | Database lifecycle and schema/repository wiring |
+| `sdkwork-settings-service-host` | In-process service container |
+| `sdkwork-settings-web-bootstrap` | SDKWork web-framework and IAM request-context bootstrap |
+| `sdkwork-settings-gateway-assembly` | Application route composition and assembly exports |
+| `sdkwork-settings-standalone-gateway` | Settings application public ingress |
+| `sdkwork-routes-settings-app-api` | app-api route adapter |
+| `sdkwork-routes-settings-backend-api` | backend-api route adapter |
+
+### 6. Database Tables
+
+| Table | Responsibility |
+| --- | --- |
+| `stg_user_preference` | User preference values |
+| `stg_tenant_config` | Tenant-level configuration values |
+| `stg_system_setting` | System-level defaults |
+| `stg_config_revision` | Configuration revision audit history |
+
+The table prefix `stg_` is the Settings database ownership prefix.
+
+### 7. Framework Integration
+
+Mandatory integrations:
+
+- `sdkwork-web-framework`
+- `sdkwork-database`
+- `sdkwork-utils`
+- `sdkwork-appbase`
+- `sdkwork-iam`
+- `sdkwork-drive`
+
+Deferred integrations:
+
+- `sdkwork-discovery`, until Settings introduces cross-process RPC services.
+- `sdkwork-rpc-framework`, until Settings ships RPC service processes.
 
 ## Consequences
 
-### Positive
+Positive:
 
-- 对齐 sdkwork-specs 标准,与其他 SDKWork 应用保持一致
-- 高内聚低耦合,配置能力集中管理
-- 多语言/多架构应用可通过 SDK 快速集成
-- 利用现有框架能力,减少重复代码
+- Settings follows the same topology, gateway, API, SDK, database, and IAM standards as other SDKWork applications.
+- The application exposes one clear public ingress per plane.
+- Route crates stay high-cohesion HTTP adapters and can be composed by gateway assembly.
+- The repository avoids compatibility debt before first production release.
 
-### Negative
+Tradeoffs:
 
-- 需要学习和维护多个框架的集成方式
-- Phase 1 不接入 RPC,后续接入时需要重构
+- Cloud scale-out internals must stay behind the declared application ingress until a dedicated `sdkwork-settings-cloud-gateway` is introduced by a new ADR.
+- Developers must use topology profiles and gateway assembly validation instead of local ad hoc HTTP listener scripts.
 
 ## Compliance
 
-- `sdkwork-specs/SDKWORK_WORKSPACE_SPEC.md`
-- `sdkwork-specs/APPLICATION_SPEC.md`
-- `sdkwork-specs/RUST_CODE_SPEC.md`
-- `sdkwork-specs/DATABASE_SPEC.md`
-- `sdkwork-specs/NAMING_SPEC.md`
+- `../sdkwork-specs/SDKWORK_WORKSPACE_SPEC.md`
+- `../sdkwork-specs/APPLICATION_GATEWAY_SPEC.md`
+- `../sdkwork-specs/APP_RUNTIME_TOPOLOGY_SPEC.md`
+- `../sdkwork-specs/APPLICATION_LAYERED_ARCHITECTURE_SPEC.md`
+- `../sdkwork-specs/API_SPEC.md`
+- `../sdkwork-specs/WEB_FRAMEWORK_SPEC.md`
+- `../sdkwork-specs/RUST_CODE_SPEC.md`
+- `../sdkwork-specs/DATABASE_SPEC.md`
+- `../sdkwork-specs/IAM_SPEC.md`
+- `../sdkwork-specs/NAMING_SPEC.md`
+
+## Verification
+
+```bash
+pnpm check:pnpm-script-standard
+pnpm test:single-http-ingress
+pnpm gateway:assembly:validate
+pnpm gateway:route-composition:audit
+pnpm topology:validate
+cargo test --workspace
+```

@@ -19,6 +19,9 @@
       { "path": "../sdkwork-specs/AGENTS_SPEC.md", "purpose": "agent entrypoint structure" },
       { "path": "../sdkwork-specs/SDKWORK_WORKSPACE_SPEC.md", "purpose": "repository workspace dictionary" },
       { "path": "../sdkwork-specs/PNPM_SCRIPT_SPEC.md", "purpose": "uniform package scripts" },
+      { "path": "../sdkwork-specs/APPLICATION_GATEWAY_SPEC.md", "purpose": "application gateway naming, assembly, and single ingress" },
+      { "path": "../sdkwork-specs/APP_RUNTIME_TOPOLOGY_SPEC.md", "purpose": "standalone and cloud runtime topology" },
+      { "path": "../sdkwork-specs/APP_RUNTIME_TOPOLOGY_NAMING.md", "purpose": "runtime topology naming and env keys" },
       { "path": "../sdkwork-specs/CODE_STYLE_SPEC.md", "purpose": "cross-language code style" },
       { "path": "../sdkwork-specs/NAMING_SPEC.md", "purpose": "canonical naming" },
       { "path": "../sdkwork-specs/RUST_CODE_SPEC.md", "purpose": "Rust crate/module layout" },
@@ -60,9 +63,12 @@
     "verification": [
       { "command": "pnpm check:pnpm-script-standard", "purpose": "validate package script standardization" },
       { "command": "pnpm check:agent-workflow-standard", "purpose": "validate agent and workflow standardization" },
-      { "command": "pnpm check:api-envelope", "purpose": "validate API response envelope" },
-      { "command": "pnpm check:database-initialization", "purpose": "validate database initialization state" },
-      { "command": "pnpm check:database-bootstrap-references", "purpose": "validate database bootstrap references" },
+      { "command": "pnpm test:single-http-ingress", "purpose": "validate one application-plane public HTTP ingress per topology profile" },
+      { "command": "pnpm gateway:assembly:validate", "purpose": "validate gateway assembly manifest and route composition ownership" },
+      { "command": "pnpm gateway:route-composition:audit", "purpose": "validate route path collision and listener path ownership" },
+      { "command": "pnpm test:api-response-envelope", "purpose": "validate API response envelope" },
+      { "command": "pnpm db:validate", "purpose": "validate database framework standard" },
+      { "command": "pnpm topology:validate", "purpose": "validate topology profile contract" },
       { "command": "cargo test --workspace", "purpose": "run all Rust tests" },
       { "command": "cargo clippy --workspace -- -D warnings", "purpose": "lint all Rust code" }
     ]

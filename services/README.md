@@ -1,16 +1,20 @@
 # Services
 
-Runnable Rust service processes for the `sdkwork-settings` repository.
+Reserved directory for future non-HTTP service processes owned by the `sdkwork-settings` repository.
 
-Authority: `../sdkwork-specs/RUST_CODE_SPEC.md`.
+Authority: `../sdkwork-specs/RUST_CODE_SPEC.md`, `../sdkwork-specs/APPLICATION_GATEWAY_SPEC.md`.
 
-## Active Services
+## Active Runtime Placement
 
-- `sdkwork-settings-api-server/`: HTTP API server process (`sdkwork-<application-code>-api-server`).
-- `sdkwork-settings-standalone-gateway/`: standalone application gateway (`sdkwork-<application-code>-standalone-gateway`).
+No active Settings application HTTP ingress lives under `services/`.
+
+The current application public ingress is `crates/sdkwork-settings-standalone-gateway/`.
+It composes application routes through `crates/sdkwork-settings-gateway-assembly/` and serves the `application.public-ingress` surface for both `standalone.*` and the current Settings `cloud.*` profiles.
+
+The shared platform plane remains `sdkwork-api-cloud-gateway` on `platform.api-gateway`.
 
 ## Rules
 
-- Runnable HTTP servers use `sdkwork-<application-code>-api-server`.
-- Standalone application gateways use `sdkwork-<application-code>-standalone-gateway`.
-- Cloud application gateways use `sdkwork-<application-code>-cloud-gateway` (when cloud profile is supported).
+- Do not add any `*-api-server` listener as the default application ingress.
+- Do not add extra application-plane HTTP listeners for app-api or backend-api sidecars.
+- Future workers or schedulers may live here only when they do not terminate `application.public-ingress`.

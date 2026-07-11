@@ -20,7 +20,7 @@ A configuration center that lets different SDKWork applications (PC, H5, Flutter
 # Install dependencies
 pnpm install
 
-# Start development (default PostgreSQL, unified-process, standalone)
+# Start development (default PostgreSQL, standalone.development)
 pnpm dev
 
 # Build

@@ -4,7 +4,7 @@
 //! 通过 [`service_router`] 挂载 `/healthz`、`/readyz`、`/livez`、`/metrics` 等基础设施探测,
 //! 通过 [`create_settings_router`] 装配 app-api 与 backend-api 路由。
 //!
-//! 上游服务进程(如 `sdkwork-settings-api-server`、`sdkwork-settings-standalone-gateway`)
+//! 上游服务进程(如 `sdkwork-settings-standalone-gateway`)
 //! 通过本 crate 完成引导,而非自行构造拦截链。
 
 use std::sync::Arc;

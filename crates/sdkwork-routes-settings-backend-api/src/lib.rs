@@ -78,8 +78,7 @@ pub fn routes() -> Router<Arc<SettingsServiceHost>> {
 pub struct TenantConfigListQuery {
     pub namespace: Option<String>,
     pub page: Option<i32>,
-    #[serde(rename = "pageSize", alias = "page_size")]
-    pub page_size: Option<i32>,
+        pub page_size: Option<i32>,
 }
 
 /// 系统设置列表查询参数。
@@ -87,8 +86,7 @@ pub struct TenantConfigListQuery {
 pub struct SystemSettingListQuery {
     pub namespace: Option<String>,
     pub page: Option<i32>,
-    #[serde(rename = "pageSize", alias = "page_size")]
-    pub page_size: Option<i32>,
+        pub page_size: Option<i32>,
 }
 
 /// 配置修订列表查询参数。
@@ -98,8 +96,7 @@ pub struct RevisionListQuery {
     #[serde(rename = "configType", alias = "config_type")]
     pub config_type: Option<String>,
     pub page: Option<i32>,
-    #[serde(rename = "pageSize", alias = "page_size")]
-    pub page_size: Option<i32>,
+        pub page_size: Option<i32>,
 }
 
 // ===== 请求体 =====
@@ -566,4 +563,8 @@ impl WithStatusExt for Response {
         *self.status_mut() = status;
         self
     }
+}
+
+pub fn gateway_mount() -> axum::Router {
+    axum::Router::new()
 }

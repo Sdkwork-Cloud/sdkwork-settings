@@ -1,15 +1,22 @@
-# SDKWork Settings 拓扑配置
+# SDKWork Settings topology configuration
 # Authority: ../sdkwork-specs/APP_RUNTIME_TOPOLOGY_SPEC.md
 
 application:
   code: settings
-  serviceLayout: unified-process
+  deploymentProfiles:
+    - standalone
+    - cloud
+  publicIngress:
+    surface: application.public-ingress
+    binary: sdkwork-settings-standalone-gateway
+    port: 8080
 
 profiles:
   standalone:
     services:
-      - name: sdkwork-settings-api
+      - name: application.public-ingress
         kind: http
+        plane: application
         port: 8080
         binary: sdkwork-settings-standalone-gateway
         routes:
@@ -28,10 +35,11 @@ profiles:
 
   cloud:
     services:
-      - name: sdkwork-settings-api
+      - name: application.public-ingress
         kind: http
+        plane: application
         port: 8080
-        binary: sdkwork-settings-api-server
+        binary: sdkwork-settings-standalone-gateway
         routes:
           - prefix: /settings/v1/app-api
             surface: app-api
@@ -45,6 +53,12 @@ profiles:
             surface: infra
           - prefix: /metrics
             surface: infra
+      - name: platform.api-gateway
+        kind: http
+        plane: platform
+        port: 3900
+        binary: sdkwork-api-cloud-gateway
+        required: false
 
 database:
   defaultEngine: postgres
@@ -53,8 +67,4 @@ database:
     - sqlite
 
 discovery:
-  # Phase 1: 静态拓扑,无 RPC 服务
   mode: static
-  # Phase 2: 接入 sdkwork-discovery 后改为 dynamic
-  # mode: dynamic
-  # endpoint: ${SDKWORK_SETTINGS_DISCOVERY_ENDPOINT}

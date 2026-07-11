@@ -1,4 +1,4 @@
-# SDKWork Settings 部署清单
+# SDKWork Settings deployment manifest
 # Authority: ../sdkwork-specs/SDKWORK_DEPLOY_SPEC.md, ../sdkwork-specs/DEPLOYMENT_SPEC.md
 
 application:
@@ -8,13 +8,17 @@ application:
 
 profiles:
   standalone:
-    description: 单进程部署,适合个人/小团队
+    description: Self-contained Settings deployment with one application public ingress.
     processes:
-      - name: sdkwork-settings-standalone-gateway
+      - name: application.public-ingress
         binary: sdkwork-settings-standalone-gateway
         port: 8080
         env:
           SDKWORK_SETTINGS_DEPLOYMENT_PROFILE: standalone
+          SDKWORK_SETTINGS_ENVIRONMENT: production
+          SDKWORK_SETTINGS_PROFILE_ID: standalone.production
+          SDKWORK_SETTINGS_APPLICATION_PUBLIC_INGRESS_BIND: 0.0.0.0:8080
+          SDKWORK_SETTINGS_APPLICATION_PUBLIC_HTTP_URL: http://127.0.0.1:8080
           SETTINGS_DATABASE_URL: ${SETTINGS_DATABASE_URL}
     database:
       engine: sqlite
@@ -25,14 +29,27 @@ profiles:
       apiProxy: http://localhost:8080
 
   cloud:
-    description: 多进程部署,适合企业级
+    description: Cloud Settings deployment with one application public ingress and optional platform API gateway config bundle.
     processes:
-      - name: sdkwork-settings-api-server
-        binary: sdkwork-settings-api-server
+      - name: application.public-ingress
+        binary: sdkwork-settings-standalone-gateway
         port: 8080
         env:
           SDKWORK_SETTINGS_DEPLOYMENT_PROFILE: cloud
+          SDKWORK_SETTINGS_ENVIRONMENT: production
+          SDKWORK_SETTINGS_PROFILE_ID: cloud.production
+          SDKWORK_SETTINGS_APPLICATION_PUBLIC_INGRESS_BIND: 0.0.0.0:8080
+          SDKWORK_SETTINGS_APPLICATION_PUBLIC_HTTP_URL: https://settings.sdkwork.com
+          SDKWORK_SETTINGS_PLATFORM_API_GATEWAY_HTTP_URL: https://api.sdkwork.com
           SETTINGS_DATABASE_URL: ${SETTINGS_DATABASE_URL}
+      - name: platform.api-gateway
+        binary: sdkwork-api-cloud-gateway
+        port: 3900
+        required: false
+        config: configs/sdkwork-api-cloud-gateway.settings.production.toml
+        env:
+          SDKWORK_API_CLOUD_GATEWAY_BIND: 0.0.0.0:3900
+          SDKWORK_API_CLOUD_GATEWAY_CONFIG: configs/sdkwork-api-cloud-gateway.settings.production.toml
     database:
       engine: postgres
       url: ${SETTINGS_DATABASE_URL}

@@ -103,7 +103,7 @@ Use `sdkwork-utils-rust` for common utilities (string, datetime, validation, cry
 
 Use canonical root package scripts from `PNPM_SCRIPT_SPEC.md`:
 
-- `pnpm dev`: default PostgreSQL, `unified-process`, `standalone` browser dev workflow.
+- `pnpm dev`: default PostgreSQL, `standalone.development` browser dev workflow.
 - `pnpm build`, `pnpm test`, `pnpm check`, `pnpm verify`, `pnpm clean`: standard root lifecycle commands.
 - `pnpm check:pnpm-script-standard`: validate package script standardization.
 - `pnpm check:agent-workflow-standard`: validate AGENTS and GitHub packaging workflow standardization.

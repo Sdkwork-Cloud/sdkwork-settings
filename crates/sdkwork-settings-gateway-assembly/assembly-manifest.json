@@ -1,0 +1,30 @@
+{
+  "kind": "sdkwork.gateway.assembly",
+  "schemaVersion": 1,
+  "applicationCode": "settings",
+  "packageName": "sdkwork-settings-gateway-assembly",
+  "crateDir": "crates/sdkwork-settings-gateway-assembly",
+  "generatedAt": "2026-07-08T01:34:22.524Z",
+  "routeCrates": [
+    {
+      "packageName": "sdkwork-routes-settings-app-api",
+      "memberDir": "crates/sdkwork-routes-settings-app-api",
+      "libName": "sdkwork_routes_settings_app_api",
+      "surface": "app-api",
+      "pathPrefix": "/settings/v1/app-api",
+      "mountOrder": 0,
+      "hasGatewayMount": false,
+      "hasGatewayRouteManifest": false
+    },
+    {
+      "packageName": "sdkwork-routes-settings-backend-api",
+      "memberDir": "crates/sdkwork-routes-settings-backend-api",
+      "libName": "sdkwork_routes_settings_backend_api",
+      "surface": "backend-api",
+      "pathPrefix": "/settings/v1/backend-api",
+      "mountOrder": 1,
+      "hasGatewayMount": false,
+      "hasGatewayRouteManifest": false
+    }
+  ]
+}

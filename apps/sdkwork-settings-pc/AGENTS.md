@@ -35,7 +35,7 @@ Application code: `settings`. Domain: `system`.
 - `specs/`: local PC application contracts and narrowing rules.
 - `src/`: React + TypeScript source code.
 - `config/browser/`: browser runtime environment config templates.
-- `package.json`: pnpm package manifest with standard scripts (`dev`, `build`, `lint`, `preview`, `clean`).
+- `package.json`: package manifest with standard scripts (`dev`, `build`, `lint`, `preview`, `clean`).
 
 ## Spec Resolution Order
 
@@ -208,6 +208,5 @@ node <sdkwork-specs>/tools/check-app-sdk-consumer-imports.mjs --workspace <works
 
 
 Authority: `APP_SDK_INTEGRATION_SPEC.md` section 9, `SDK_SPEC.md` package naming table, `SDK_WORKSPACE_GENERATION_SPEC.md` composed facade rules.
-
 
 
