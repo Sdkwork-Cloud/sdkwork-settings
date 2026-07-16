@@ -365,23 +365,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "User preference deleted (default restored).",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/DeleteUserPreferenceResponse"
-                },
-                "example": {
-                  "code": 0,
-                  "data": {
-                    "accepted": true,
-                    "resourceId": "12884901888"
-                  },
-                  "traceId": "0195f2a0-7c44-7b2e-9f3a-2a6f5d8e91ab"
-                }
-              }
-            }
+          "204": {
+            "description": "User preference deleted (default restored)."
           },
           "400": {
             "$ref": "#/components/responses/BadRequest"
