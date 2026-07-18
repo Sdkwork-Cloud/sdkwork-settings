@@ -56,3 +56,10 @@ generated/composition.resolved.json
 # Test artifacts
 coverage/
 *.lcov
+
+# Common runtime/build artifacts (auto-aligned)
+*.sqlite-shm
+*.sqlite-wal
+**/test-results/
+**/.cache/
+

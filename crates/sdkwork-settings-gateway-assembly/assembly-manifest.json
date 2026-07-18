@@ -4,7 +4,7 @@
   "applicationCode": "settings",
   "packageName": "sdkwork-settings-gateway-assembly",
   "crateDir": "crates/sdkwork-settings-gateway-assembly",
-  "generatedAt": "2026-07-08T01:34:22.524Z",
+  "generatedAt": "2026-07-16T16:46:07.261Z",
   "routeCrates": [
     {
       "packageName": "sdkwork-routes-settings-app-api",
@@ -13,7 +13,7 @@
       "surface": "app-api",
       "pathPrefix": "/settings/v1/app-api",
       "mountOrder": 0,
-      "hasGatewayMount": false,
+      "hasGatewayMount": true,
       "hasGatewayRouteManifest": false
     },
     {
@@ -23,7 +23,7 @@
       "surface": "backend-api",
       "pathPrefix": "/settings/v1/backend-api",
       "mountOrder": 1,
-      "hasGatewayMount": false,
+      "hasGatewayMount": true,
       "hasGatewayRouteManifest": false
     }
   ]

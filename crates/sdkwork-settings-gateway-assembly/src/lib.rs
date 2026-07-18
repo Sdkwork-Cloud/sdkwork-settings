@@ -1,5 +1,5 @@
-//! Gateway assembly scaffold for sdkwork-settings.
-//! Implement `bootstrap.rs` with application-specific service wiring until every route crate exports `gateway_mount`.
+//! Gateway assembly for sdkwork-settings.
+//! Application bootstrap lives in `bootstrap.rs`; route inventory is in `assembly-manifest.json`.
 
 mod bootstrap;
 mod generated;

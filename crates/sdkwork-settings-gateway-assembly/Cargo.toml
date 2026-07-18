@@ -11,9 +11,9 @@ path = "src/lib.rs"
 
 [dependencies]
 axum.workspace = true
-tokio = { version = "1.48", features = ["macros", "rt-multi-thread"] }
+tokio.workspace = true
 serde.workspace = true
 serde_json.workspace = true
 sdkwork_settings_web_bootstrap.workspace = true
-sdkwork_routes_settings_app_api.workspace = true
-sdkwork_routes_settings_backend_api.workspace = true
+sdkwork-routes-settings-app-api = { path = "../sdkwork-routes-settings-app-api" }
+sdkwork-routes-settings-backend-api = { path = "../sdkwork-routes-settings-backend-api" }
