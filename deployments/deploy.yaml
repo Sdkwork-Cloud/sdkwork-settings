@@ -29,7 +29,7 @@ profiles:
       apiProxy: http://localhost:8080
 
   cloud:
-    description: Cloud Settings deployment with one application public ingress and optional platform API gateway config bundle.
+    description: Cloud Settings application service; platform ingress composition is owned externally.
     processes:
       - name: application.public-ingress
         binary: sdkwork-api-settings-standalone-gateway
@@ -42,14 +42,6 @@ profiles:
           SDKWORK_SETTINGS_APPLICATION_PUBLIC_HTTP_URL: https://settings.sdkwork.com
           SDKWORK_SETTINGS_PLATFORM_API_GATEWAY_HTTP_URL: https://api.sdkwork.com
           SETTINGS_DATABASE_URL: ${SETTINGS_DATABASE_URL}
-      - name: platform.api-gateway
-        binary: sdkwork-api-cloud-gateway
-        port: 3900
-        required: false
-        config: configs/sdkwork-api-cloud-gateway.settings.production.toml
-        env:
-          SDKWORK_API_CLOUD_GATEWAY_BIND: 0.0.0.0:3900
-          SDKWORK_API_CLOUD_GATEWAY_CONFIG: configs/sdkwork-api-cloud-gateway.settings.production.toml
     database:
       engine: postgres
       url: ${SETTINGS_DATABASE_URL}
