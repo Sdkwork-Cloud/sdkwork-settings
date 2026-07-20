@@ -5,7 +5,7 @@
 //! 2. app-api 业务路由(`/settings/v1/app-api/*`)
 //! 3. backend-api 业务路由(`/settings/v1/backend-api/*`)
 //!
-//! 业务路由通过 `sdkwork-settings-gateway-assembly` 装配,本 crate 只负责进程启动、
+//! 业务路由通过 `sdkwork-api-settings-assembly` 装配,本 crate 只负责进程启动、
 //! 配置读取、数据库引导、基础设施探测和监听。
 //!
 //! # 环境变量
@@ -18,7 +18,7 @@ use std::sync::Arc;
 use sdkwork_database_config::DatabaseConfig;
 use sdkwork_database_sqlx::create_pool_from_config;
 use sdkwork_settings_database_host::bootstrap_settings_database;
-use sdkwork_settings_gateway_assembly::assemble_application_router;
+use sdkwork_api_settings_assembly::assemble_api_router;
 use sdkwork_settings_service_host::SettingsServiceHost;
 use sdkwork_settings_web_bootstrap::{
     SettingsAppState, mount_settings_infra_routes, settings_service_router_config,
@@ -36,7 +36,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         )
         .init();
 
-    tracing::info!(target: "sdkwork_settings::standalone_gateway", "starting sdkwork-settings-standalone-gateway");
+    tracing::info!(target: "sdkwork_settings::standalone_gateway", "starting sdkwork-api-settings-standalone-gateway");
 
     // 引导数据库
     let db_config = DatabaseConfig::from_env("SETTINGS")
@@ -54,7 +54,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let state = SettingsAppState::new(host);
 
     // 装配路由: gateway assembly owns business route composition; listener owns infra routes.
-    let assembly = assemble_application_router(state).await;
+    let assembly = assemble_api_router(state).await;
     let router = mount_settings_infra_routes(assembly.router, settings_service_router_config());
     tracing::info!(target: "sdkwork_settings::standalone_gateway", "router assembled through gateway assembly");
 

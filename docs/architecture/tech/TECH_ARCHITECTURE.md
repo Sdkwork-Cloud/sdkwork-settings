@@ -20,9 +20,9 @@ sdkwork-settings-app-sdk / sdkwork-settings-backend-sdk
         | HTTP, SdkWorkApiResponse envelope
         v
 application.public-ingress
-  sdkwork-settings-standalone-gateway
+  sdkwork-api-settings-standalone-gateway
         |
-        | sdkwork-settings-gateway-assembly
+        | sdkwork-api-settings-assembly
         v
 sdkwork-settings-web-bootstrap
   sdkwork-web-framework, IAM request context, infra routes
@@ -40,7 +40,7 @@ sdkwork-settings-service-host
         +-- sdkwork-utils-rust
 ```
 
-`sdkwork-settings-standalone-gateway` is the active Settings application-plane ingress. `sdkwork-settings-gateway-assembly` owns route composition. Route crates remain HTTP adapters, not listener processes.
+`sdkwork-api-settings-standalone-gateway` is the active Settings application-plane ingress. `sdkwork-api-settings-assembly` owns route composition. Route crates remain HTTP adapters, not listener processes.
 
 Retired `*-api-server` listeners are not part of the active architecture.
 
@@ -51,8 +51,8 @@ Retired `*-api-server` listeners are not part of the active architecture.
 | Backend language | Rust |
 | HTTP framework | `sdkwork-web-framework` on Axum |
 | API envelope | `SdkWorkApiResponse` success envelope and `ProblemDetail` errors |
-| Application ingress | `sdkwork-settings-standalone-gateway` |
-| Route composition | `sdkwork-settings-gateway-assembly` |
+| Application ingress | `sdkwork-api-settings-standalone-gateway` |
+| Route composition | `sdkwork-api-settings-assembly` |
 | Database | PostgreSQL by default, SQLite for supported local/runtime targets |
 | Frontend | React, Vite, TypeScript |
 | Authentication and authorization | `sdkwork-iam` and `sdkwork-iam-web-adapter` |
@@ -64,8 +64,8 @@ Retired `*-api-server` listeners are not part of the active architecture.
 | Layer | Owner | Responsibility |
 | --- | --- | --- |
 | API route adapters | `sdkwork-routes-settings-app-api`, `sdkwork-routes-settings-backend-api` | HTTP decoding, request context extraction, response mapping, route manifests |
-| Gateway assembly | `sdkwork-settings-gateway-assembly` | Business route composition and application-plane router exports |
-| Application ingress | `sdkwork-settings-standalone-gateway` | Listener startup, topology bind env, process-level infra routes |
+| Gateway assembly | `sdkwork-api-settings-assembly` | Business route composition and application-plane router exports |
+| Application ingress | `sdkwork-api-settings-standalone-gateway` | Listener startup, topology bind env, process-level infra routes |
 | Framework bootstrap | `sdkwork-settings-web-bootstrap` | SDKWork web-framework wrapping, IAM request context, business router construction |
 | Service host | `sdkwork-settings-service-host` | In-process service container, repository and provider wiring |
 | Domain contract | `sdkwork-settings-contract` | Domain DTOs, value objects, commands, results, and typed errors |
@@ -88,8 +88,8 @@ crates/
   sdkwork-settings-database-host/
   sdkwork-settings-service-host/
   sdkwork-settings-web-bootstrap/
-  sdkwork-settings-gateway-assembly/
-  sdkwork-settings-standalone-gateway/
+  sdkwork-api-settings-assembly/
+  sdkwork-api-settings-standalone-gateway/
   sdkwork-routes-settings-app-api/
   sdkwork-routes-settings-backend-api/
 configs/topology/              topology profiles and env templates
@@ -166,10 +166,10 @@ Active profiles:
 
 | Profile id | Application public ingress | Platform plane |
 | --- | --- | --- |
-| `standalone.development` | `sdkwork-settings-standalone-gateway` | Optional embedded or local platform adapter |
-| `standalone.production` | `sdkwork-settings-standalone-gateway` | Optional embedded or configured platform adapter |
-| `cloud.development` | `sdkwork-settings-standalone-gateway` for the current application ingress | Optional `sdkwork-api-cloud-gateway` config bundle |
-| `cloud.production` | `sdkwork-settings-standalone-gateway` for the current application ingress | `sdkwork-api-cloud-gateway` on `platform.api-gateway` |
+| `standalone.development` | `sdkwork-api-settings-standalone-gateway` | Optional embedded or local platform adapter |
+| `standalone.production` | `sdkwork-api-settings-standalone-gateway` | Optional embedded or configured platform adapter |
+| `cloud.development` | `sdkwork-api-settings-standalone-gateway` for the current application ingress | Optional `sdkwork-api-cloud-gateway` config bundle |
+| `cloud.production` | `sdkwork-api-settings-standalone-gateway` for the current application ingress | `sdkwork-api-cloud-gateway` on `platform.api-gateway` |
 
 Rules:
 

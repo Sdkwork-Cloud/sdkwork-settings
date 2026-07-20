@@ -11,7 +11,7 @@ profiles:
     description: Self-contained Settings deployment with one application public ingress.
     processes:
       - name: application.public-ingress
-        binary: sdkwork-settings-standalone-gateway
+        binary: sdkwork-api-settings-standalone-gateway
         port: 8080
         env:
           SDKWORK_SETTINGS_DEPLOYMENT_PROFILE: standalone
@@ -32,7 +32,7 @@ profiles:
     description: Cloud Settings deployment with one application public ingress and optional platform API gateway config bundle.
     processes:
       - name: application.public-ingress
-        binary: sdkwork-settings-standalone-gateway
+        binary: sdkwork-api-settings-standalone-gateway
         port: 8080
         env:
           SDKWORK_SETTINGS_DEPLOYMENT_PROFILE: cloud

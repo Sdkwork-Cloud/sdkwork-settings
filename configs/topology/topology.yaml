@@ -8,7 +8,7 @@ application:
     - cloud
   publicIngress:
     surface: application.public-ingress
-    binary: sdkwork-settings-standalone-gateway
+    binary: sdkwork-api-settings-standalone-gateway
     port: 8080
 
 profiles:
@@ -18,7 +18,7 @@ profiles:
         kind: http
         plane: application
         port: 8080
-        binary: sdkwork-settings-standalone-gateway
+        binary: sdkwork-api-settings-standalone-gateway
         routes:
           - prefix: /settings/v1/app-api
             surface: app-api
@@ -39,7 +39,7 @@ profiles:
         kind: http
         plane: application
         port: 8080
-        binary: sdkwork-settings-standalone-gateway
+        binary: sdkwork-api-settings-standalone-gateway
         routes:
           - prefix: /settings/v1/app-api
             surface: app-api

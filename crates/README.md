@@ -19,7 +19,7 @@ In-process service container: `sdkwork-<application-code>-service-host`
 - `sdkwork-settings-contract/`: domain contracts, DTOs, error types.
 - `sdkwork-settings-database-host/`: database module bootstrap and schema registration.
 - `sdkwork-settings-web-bootstrap/`: web framework bootstrap and route assembly.
-- `sdkwork-settings-gateway-assembly/`: gateway assembly manifest.
+- `sdkwork-api-settings-assembly/`: gateway assembly manifest.
 - `sdkwork-settings-service-host/`: in-process service container.
 - `sdkwork-routes-settings-app-api/`: app-api route crate.
 - `sdkwork-routes-settings-backend-api/`: backend-api route crate.

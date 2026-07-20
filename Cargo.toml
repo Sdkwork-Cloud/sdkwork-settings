@@ -4,9 +4,9 @@ members = [
     "crates/sdkwork-settings-contract",
     "crates/sdkwork-settings-database-host",
     "crates/sdkwork-settings-web-bootstrap",
-    "crates/sdkwork-settings-gateway-assembly",
+    "crates/sdkwork-api-settings-assembly",
     "crates/sdkwork-settings-service-host",
-    "crates/sdkwork-settings-standalone-gateway",
+    "crates/sdkwork-api-settings-standalone-gateway",
     "crates/sdkwork-routes-settings-app-api",
     "crates/sdkwork-routes-settings-backend-api",
 ]
@@ -71,7 +71,7 @@ sdkwork_drive_uploader_service = { path = "../sdkwork-drive/crates/sdkwork-drive
 sdkwork_settings_contract = { path = "crates/sdkwork-settings-contract", package = "sdkwork-settings-contract" }
 sdkwork_settings_database_host = { path = "crates/sdkwork-settings-database-host", package = "sdkwork-settings-database-host" }
 sdkwork_settings_web_bootstrap = { path = "crates/sdkwork-settings-web-bootstrap", package = "sdkwork-settings-web-bootstrap" }
-sdkwork_settings_gateway_assembly = { path = "crates/sdkwork-settings-gateway-assembly", package = "sdkwork-settings-gateway-assembly" }
+sdkwork_api_settings_assembly = { path = "crates/sdkwork-api-settings-assembly", package = "sdkwork-api-settings-assembly" }
 sdkwork_settings_service_host = { path = "crates/sdkwork-settings-service-host", package = "sdkwork-settings-service-host" }
 sdkwork_routes_settings_app_api = { path = "crates/sdkwork-routes-settings-app-api", package = "sdkwork-routes-settings-app-api" }
 sdkwork_routes_settings_backend_api = { path = "crates/sdkwork-routes-settings-backend-api", package = "sdkwork-routes-settings-backend-api" }

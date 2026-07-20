@@ -37,7 +37,7 @@ Both surfaces are exposed through `application.public-ingress`.
 
 ### 3. Runtime Ingress
 
-Settings uses `sdkwork-settings-standalone-gateway` as the active application public ingress. The gateway calls `sdkwork-settings-gateway-assembly` to compose Settings route crates.
+Settings uses `sdkwork-api-settings-standalone-gateway` as the active application public ingress. The gateway calls `sdkwork-api-settings-assembly` to compose Settings route crates.
 
 Retired `*-api-server` listeners must not be used as default dev, release, topology, or deployment ingress.
 
@@ -69,8 +69,8 @@ The application root follows the SDKWork workspace dictionary:
 | `sdkwork-settings-database-host` | Database lifecycle and schema/repository wiring |
 | `sdkwork-settings-service-host` | In-process service container |
 | `sdkwork-settings-web-bootstrap` | SDKWork web-framework and IAM request-context bootstrap |
-| `sdkwork-settings-gateway-assembly` | Application route composition and assembly exports |
-| `sdkwork-settings-standalone-gateway` | Settings application public ingress |
+| `sdkwork-api-settings-assembly` | Application route composition and assembly exports |
+| `sdkwork-api-settings-standalone-gateway` | Settings application public ingress |
 | `sdkwork-routes-settings-app-api` | app-api route adapter |
 | `sdkwork-routes-settings-backend-api` | backend-api route adapter |
 

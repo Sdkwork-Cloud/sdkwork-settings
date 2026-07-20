@@ -8,8 +8,8 @@ Authority: `../sdkwork-specs/RUST_CODE_SPEC.md`, `../sdkwork-specs/APPLICATION_G
 
 No active Settings application HTTP ingress lives under `services/`.
 
-The current application public ingress is `crates/sdkwork-settings-standalone-gateway/`.
-It composes application routes through `crates/sdkwork-settings-gateway-assembly/` and serves the `application.public-ingress` surface for both `standalone.*` and the current Settings `cloud.*` profiles.
+The current application public ingress is `crates/sdkwork-api-settings-standalone-gateway/`.
+It composes application routes through `crates/sdkwork-api-settings-assembly/` and serves the `application.public-ingress` surface for both `standalone.*` and the current Settings `cloud.*` profiles.
 
 The shared platform plane remains `sdkwork-api-cloud-gateway` on `platform.api-gateway`.
 
