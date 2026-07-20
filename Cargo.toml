@@ -1,5 +1,6 @@
 [workspace]
 members = [
+    "crates/sdkwork-api-settings-assembly",
     "crates/sdkwork-settings-contract",
     "crates/sdkwork-settings-database-host",
     "crates/sdkwork-settings-web-bootstrap",

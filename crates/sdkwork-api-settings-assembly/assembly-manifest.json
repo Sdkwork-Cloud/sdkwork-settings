@@ -1,0 +1,32 @@
+{
+  "kind": "sdkwork.api.assembly",
+  "schemaVersion": 1,
+  "applicationCode": "settings",
+  "apiMode": "served",
+  "packageName": "sdkwork-api-settings-assembly",
+  "crateDir": "crates/sdkwork-api-settings-assembly",
+  "routeCrates": [
+    {
+      "packageName": "sdkwork-routes-settings-app-api",
+      "memberDir": "crates/sdkwork-routes-settings-app-api",
+      "libName": "sdkwork_routes_settings_app_api",
+      "surface": "app-api",
+      "pathPrefix": "/settings/v1/app-api",
+      "mountOrder": 0,
+      "componentRef": "crates/sdkwork-routes-settings-app-api/specs/component.spec.json",
+      "routeManifestRef": "crates/sdkwork-routes-settings-app-api/sdks/_route-manifests/app-api/sdkwork-routes-settings-app-api.route-manifest.json",
+      "sourceRef": "crates/sdkwork-routes-settings-app-api/Cargo.toml"
+    },
+    {
+      "packageName": "sdkwork-routes-settings-backend-api",
+      "memberDir": "crates/sdkwork-routes-settings-backend-api",
+      "libName": "sdkwork_routes_settings_backend_api",
+      "surface": "backend-api",
+      "pathPrefix": "/settings/v1/backend-api",
+      "mountOrder": 1,
+      "componentRef": "crates/sdkwork-routes-settings-backend-api/specs/component.spec.json",
+      "routeManifestRef": "crates/sdkwork-routes-settings-backend-api/sdks/_route-manifests/backend-api/sdkwork-routes-settings-backend-api.route-manifest.json",
+      "sourceRef": "crates/sdkwork-routes-settings-backend-api/Cargo.toml"
+    }
+  ]
+}
