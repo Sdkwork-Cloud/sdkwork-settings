@@ -565,6 +565,6 @@ impl WithStatusExt for Response {
     }
 }
 
-pub fn gateway_mount() -> axum::Router {
-    axum::Router::new()
+pub fn gateway_mount(host: Arc<SettingsServiceHost>) -> axum::Router {
+    routes().with_state(host)
 }
