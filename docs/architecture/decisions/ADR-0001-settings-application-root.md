@@ -133,7 +133,7 @@ Tradeoffs:
 ```bash
 pnpm check:pnpm-script-standard
 pnpm test:single-http-ingress
-pnpm gateway:assembly:validate
+pnpm api:assembly:validate
 pnpm gateway:route-composition:audit
 pnpm topology:validate
 cargo test --workspace

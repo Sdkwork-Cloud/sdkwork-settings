@@ -190,7 +190,7 @@ Relevant verification commands:
 ```bash
 pnpm check:pnpm-script-standard
 pnpm test:single-http-ingress
-pnpm gateway:assembly:validate
+pnpm api:assembly:validate
 pnpm gateway:route-composition:audit
 pnpm test:api-response-envelope
 pnpm db:validate

@@ -11,66 +11,271 @@
       "license": "AGPL-3.0-or-later"
     },
     "surfaces": [
-      { "name": "app-api", "kind": "http", "authority": "apis/app-api/settings/sdkwork-settings-app-api.openapi.json" },
-      { "name": "backend-api", "kind": "http", "authority": "apis/backend-api/settings/sdkwork-settings-backend-api.openapi.json" }
+      {
+        "name": "app-api",
+        "kind": "http",
+        "authority": "apis/app-api/settings/sdkwork-settings-app-api.openapi.json"
+      },
+      {
+        "name": "backend-api",
+        "kind": "http",
+        "authority": "apis/backend-api/settings/sdkwork-settings-backend-api.openapi.json"
+      }
     ],
     "canonicalSpecs": [
-      { "path": "../sdkwork-specs/SOUL.md", "purpose": "agent execution soul" },
-      { "path": "../sdkwork-specs/AGENTS_SPEC.md", "purpose": "agent entrypoint structure" },
-      { "path": "../sdkwork-specs/SDKWORK_WORKSPACE_SPEC.md", "purpose": "repository workspace dictionary" },
-      { "path": "../sdkwork-specs/PNPM_SCRIPT_SPEC.md", "purpose": "uniform package scripts" },
-      { "path": "../sdkwork-specs/APPLICATION_GATEWAY_SPEC.md", "purpose": "application gateway naming, assembly, and single ingress" },
-      { "path": "../sdkwork-specs/APP_RUNTIME_TOPOLOGY_SPEC.md", "purpose": "standalone and cloud runtime topology" },
-      { "path": "../sdkwork-specs/APP_RUNTIME_TOPOLOGY_NAMING.md", "purpose": "runtime topology naming and env keys" },
-      { "path": "../sdkwork-specs/CODE_STYLE_SPEC.md", "purpose": "cross-language code style" },
-      { "path": "../sdkwork-specs/NAMING_SPEC.md", "purpose": "canonical naming" },
-      { "path": "../sdkwork-specs/RUST_CODE_SPEC.md", "purpose": "Rust crate/module layout" },
-      { "path": "../sdkwork-specs/API_SPEC.md", "purpose": "HTTP API and response envelope" },
-      { "path": "../sdkwork-specs/WEB_FRAMEWORK_SPEC.md", "purpose": "mandatory web framework integration" },
-      { "path": "../sdkwork-specs/WEB_BACKEND_SPEC.md", "purpose": "web backend implementation" },
-      { "path": "../sdkwork-specs/DATABASE_SPEC.md", "purpose": "database contract" },
-      { "path": "../sdkwork-specs/DATABASE_FRAMEWORK_SPEC.md", "purpose": "database lifecycle framework" },
-      { "path": "../sdkwork-specs/SUBJECT_ID_SPEC.md", "purpose": "snowflake id and SQL subject scope" },
-      { "path": "../sdkwork-specs/DRIVE_SPEC.md", "purpose": "Drive file upload integration" },
-      { "path": "../sdkwork-specs/IAM_SPEC.md", "purpose": "IAM tenants/users/permissions" },
-      { "path": "../sdkwork-specs/IAM_APPLICATION_BOOTSTRAP_SPEC.md", "purpose": "IAM application bootstrap" },
-      { "path": "../sdkwork-specs/IAM_LOGIN_INTEGRATION_SPEC.md", "purpose": "IAM login integration" },
-      { "path": "../sdkwork-specs/SDK_SPEC.md", "purpose": "SDK standard" },
-      { "path": "../sdkwork-specs/SDK_WORKSPACE_GENERATION_SPEC.md", "purpose": "SDK workspace generation" },
-      { "path": "../sdkwork-specs/APP_PC_ARCHITECTURE_SPEC.md", "purpose": "PC application architecture" },
-      { "path": "../sdkwork-specs/APP_SDK_INTEGRATION_SPEC.md", "purpose": "app SDK integration" },
-      { "path": "../sdkwork-specs/APP_COMPOSITION_SPEC.md", "purpose": "application composition" },
-      { "path": "../sdkwork-specs/CONFIG_SPEC.md", "purpose": "runtime config" },
-      { "path": "../sdkwork-specs/ENVIRONMENT_SPEC.md", "purpose": "environment variables" },
-      { "path": "../sdkwork-specs/DEPLOYMENT_SPEC.md", "purpose": "deployment profiles" },
-      { "path": "../sdkwork-specs/SECURITY_SPEC.md", "purpose": "security" },
-      { "path": "../sdkwork-specs/PRIVACY_SPEC.md", "purpose": "privacy" },
-      { "path": "../sdkwork-specs/TEST_SPEC.md", "purpose": "tests" },
-      { "path": "../sdkwork-specs/OBSERVABILITY_SPEC.md", "purpose": "observability" },
-      { "path": "../sdkwork-specs/HEALTH_CHECK_SPEC.md", "purpose": "health checks" },
-      { "path": "../sdkwork-specs/PERFORMANCE_SPEC.md", "purpose": "performance" }
+      {
+        "path": "../sdkwork-specs/SOUL.md",
+        "purpose": "agent execution soul"
+      },
+      {
+        "path": "../sdkwork-specs/AGENTS_SPEC.md",
+        "purpose": "agent entrypoint structure"
+      },
+      {
+        "path": "../sdkwork-specs/SDKWORK_WORKSPACE_SPEC.md",
+        "purpose": "repository workspace dictionary"
+      },
+      {
+        "path": "../sdkwork-specs/PNPM_SCRIPT_SPEC.md",
+        "purpose": "uniform package scripts"
+      },
+      {
+        "path": "../sdkwork-specs/APPLICATION_GATEWAY_SPEC.md",
+        "purpose": "application gateway naming, assembly, and single ingress"
+      },
+      {
+        "path": "../sdkwork-specs/APP_RUNTIME_TOPOLOGY_SPEC.md",
+        "purpose": "standalone and cloud runtime topology"
+      },
+      {
+        "path": "../sdkwork-specs/APP_RUNTIME_TOPOLOGY_NAMING.md",
+        "purpose": "runtime topology naming and env keys"
+      },
+      {
+        "path": "../sdkwork-specs/CODE_STYLE_SPEC.md",
+        "purpose": "cross-language code style"
+      },
+      {
+        "path": "../sdkwork-specs/NAMING_SPEC.md",
+        "purpose": "canonical naming"
+      },
+      {
+        "path": "../sdkwork-specs/RUST_CODE_SPEC.md",
+        "purpose": "Rust crate/module layout"
+      },
+      {
+        "path": "../sdkwork-specs/API_SPEC.md",
+        "purpose": "HTTP API and response envelope"
+      },
+      {
+        "path": "../sdkwork-specs/WEB_FRAMEWORK_SPEC.md",
+        "purpose": "mandatory web framework integration"
+      },
+      {
+        "path": "../sdkwork-specs/WEB_BACKEND_SPEC.md",
+        "purpose": "web backend implementation"
+      },
+      {
+        "path": "../sdkwork-specs/DATABASE_SPEC.md",
+        "purpose": "database contract"
+      },
+      {
+        "path": "../sdkwork-specs/DATABASE_FRAMEWORK_SPEC.md",
+        "purpose": "database lifecycle framework"
+      },
+      {
+        "path": "../sdkwork-specs/SUBJECT_ID_SPEC.md",
+        "purpose": "snowflake id and SQL subject scope"
+      },
+      {
+        "path": "../sdkwork-specs/DRIVE_SPEC.md",
+        "purpose": "Drive file upload integration"
+      },
+      {
+        "path": "../sdkwork-specs/IAM_SPEC.md",
+        "purpose": "IAM tenants/users/permissions"
+      },
+      {
+        "path": "../sdkwork-specs/IAM_APPLICATION_BOOTSTRAP_SPEC.md",
+        "purpose": "IAM application bootstrap"
+      },
+      {
+        "path": "../sdkwork-specs/IAM_LOGIN_INTEGRATION_SPEC.md",
+        "purpose": "IAM login integration"
+      },
+      {
+        "path": "../sdkwork-specs/SDK_SPEC.md",
+        "purpose": "SDK standard"
+      },
+      {
+        "path": "../sdkwork-specs/SDK_WORKSPACE_GENERATION_SPEC.md",
+        "purpose": "SDK workspace generation"
+      },
+      {
+        "path": "../sdkwork-specs/APP_PC_ARCHITECTURE_SPEC.md",
+        "purpose": "PC application architecture"
+      },
+      {
+        "path": "../sdkwork-specs/APP_SDK_INTEGRATION_SPEC.md",
+        "purpose": "app SDK integration"
+      },
+      {
+        "path": "../sdkwork-specs/APP_COMPOSITION_SPEC.md",
+        "purpose": "application composition"
+      },
+      {
+        "path": "../sdkwork-specs/CONFIG_SPEC.md",
+        "purpose": "runtime config"
+      },
+      {
+        "path": "../sdkwork-specs/ENVIRONMENT_SPEC.md",
+        "purpose": "environment variables"
+      },
+      {
+        "path": "../sdkwork-specs/DEPLOYMENT_SPEC.md",
+        "purpose": "deployment profiles"
+      },
+      {
+        "path": "../sdkwork-specs/SECURITY_SPEC.md",
+        "purpose": "security"
+      },
+      {
+        "path": "../sdkwork-specs/PRIVACY_SPEC.md",
+        "purpose": "privacy"
+      },
+      {
+        "path": "../sdkwork-specs/TEST_SPEC.md",
+        "purpose": "tests"
+      },
+      {
+        "path": "../sdkwork-specs/OBSERVABILITY_SPEC.md",
+        "purpose": "observability"
+      },
+      {
+        "path": "../sdkwork-specs/HEALTH_CHECK_SPEC.md",
+        "purpose": "health checks"
+      },
+      {
+        "path": "../sdkwork-specs/PERFORMANCE_SPEC.md",
+        "purpose": "performance"
+      }
     ],
     "frameworks": [
-      { "name": "sdkwork-web-framework", "path": "../sdkwork-web-framework", "required": true, "crates": ["sdkwork-web-core", "sdkwork-web-axum", "sdkwork-web-bootstrap", "sdkwork-web-contract", "sdkwork-web-store-sqlx"] },
-      { "name": "sdkwork-database", "path": "../sdkwork-database", "required": true, "crates": ["sdkwork-database-config", "sdkwork-database-lifecycle", "sdkwork-database-spi", "sdkwork-database-sqlx"] },
-      { "name": "sdkwork-utils", "path": "../sdkwork-utils", "required": true, "packages": ["sdkwork-utils-rust"] },
-      { "name": "sdkwork-appbase", "path": "../sdkwork-appbase", "required": true, "crates": ["sdkwork-platform-id-service"] },
-      { "name": "sdkwork-iam", "path": "../sdkwork-iam", "required": true, "crates": ["sdkwork-iam-bootstrap", "sdkwork-iam-web-adapter", "sdkwork-iam-database-host", "sdkwork-iam-embedded-application-bootstrap"] },
-      { "name": "sdkwork-drive", "path": "../sdkwork-drive", "required": true, "crates": ["sdkwork-drive-contract", "sdkwork-drive-uploader-service"] },
-      { "name": "sdkwork-discovery", "path": "../sdkwork-rpc-framework", "required": false, "deferred": true, "reason": "No RPC services in Phase 1. Adopt when cross-process gRPC is introduced." },
-      { "name": "sdkwork-rpc-framework", "path": "../sdkwork-rpc-framework", "required": false, "deferred": true, "reason": "No RPC services in Phase 1." }
+      {
+        "name": "sdkwork-web-framework",
+        "path": "../sdkwork-web-framework",
+        "required": true,
+        "crates": [
+          "sdkwork-web-core",
+          "sdkwork-web-axum",
+          "sdkwork-web-bootstrap",
+          "sdkwork-web-contract",
+          "sdkwork-web-store-sqlx"
+        ]
+      },
+      {
+        "name": "sdkwork-database",
+        "path": "../sdkwork-database",
+        "required": true,
+        "crates": [
+          "sdkwork-database-config",
+          "sdkwork-database-lifecycle",
+          "sdkwork-database-spi",
+          "sdkwork-database-sqlx"
+        ]
+      },
+      {
+        "name": "sdkwork-utils",
+        "path": "../sdkwork-utils",
+        "required": true,
+        "packages": [
+          "sdkwork-utils-rust"
+        ]
+      },
+      {
+        "name": "sdkwork-appbase",
+        "path": "../sdkwork-appbase",
+        "required": true,
+        "crates": [
+          "sdkwork-platform-id-service"
+        ]
+      },
+      {
+        "name": "sdkwork-iam",
+        "path": "../sdkwork-iam",
+        "required": true,
+        "crates": [
+          "sdkwork-iam-bootstrap",
+          "sdkwork-iam-web-adapter",
+          "sdkwork-iam-database-host",
+          "sdkwork-iam-embedded-application-bootstrap"
+        ]
+      },
+      {
+        "name": "sdkwork-drive",
+        "path": "../sdkwork-drive",
+        "required": true,
+        "crates": [
+          "sdkwork-drive-contract",
+          "sdkwork-drive-uploader-service"
+        ]
+      },
+      {
+        "name": "sdkwork-discovery",
+        "path": "../sdkwork-rpc-framework",
+        "required": false,
+        "deferred": true,
+        "reason": "No RPC services in Phase 1. Adopt when cross-process gRPC is introduced."
+      },
+      {
+        "name": "sdkwork-rpc-framework",
+        "path": "../sdkwork-rpc-framework",
+        "required": false,
+        "deferred": true,
+        "reason": "No RPC services in Phase 1."
+      }
     ],
     "verification": [
-      { "command": "pnpm check:pnpm-script-standard", "purpose": "validate package script standardization" },
-      { "command": "pnpm check:agent-workflow-standard", "purpose": "validate agent and workflow standardization" },
-      { "command": "pnpm test:single-http-ingress", "purpose": "validate one application-plane public HTTP ingress per topology profile" },
-      { "command": "pnpm gateway:assembly:validate", "purpose": "validate gateway assembly manifest and route composition ownership" },
-      { "command": "pnpm gateway:route-composition:audit", "purpose": "validate route path collision and listener path ownership" },
-      { "command": "pnpm test:api-response-envelope", "purpose": "validate API response envelope" },
-      { "command": "pnpm db:validate", "purpose": "validate database framework standard" },
-      { "command": "pnpm topology:validate", "purpose": "validate topology profile contract" },
-      { "command": "cargo test --workspace", "purpose": "run all Rust tests" },
-      { "command": "cargo clippy --workspace -- -D warnings", "purpose": "lint all Rust code" }
+      {
+        "command": "pnpm check:pnpm-script-standard",
+        "purpose": "validate package script standardization"
+      },
+      {
+        "command": "pnpm check:agent-workflow-standard",
+        "purpose": "validate agent and workflow standardization"
+      },
+      {
+        "command": "pnpm test:single-http-ingress",
+        "purpose": "validate one application-plane public HTTP ingress per topology profile"
+      },
+      {
+        "command": "pnpm api:assembly:validate",
+        "purpose": "validate gateway assembly manifest and route composition ownership"
+      },
+      {
+        "command": "pnpm gateway:route-composition:audit",
+        "purpose": "validate route path collision and listener path ownership"
+      },
+      {
+        "command": "pnpm test:api-response-envelope",
+        "purpose": "validate API response envelope"
+      },
+      {
+        "command": "pnpm db:validate",
+        "purpose": "validate database framework standard"
+      },
+      {
+        "command": "pnpm topology:validate",
+        "purpose": "validate topology profile contract"
+      },
+      {
+        "command": "cargo test --workspace",
+        "purpose": "run all Rust tests"
+      },
+      {
+        "command": "cargo clippy --workspace -- -D warnings",
+        "purpose": "lint all Rust code"
+      }
     ]
   }
 }
