@@ -71,7 +71,7 @@
       "gateway_mount",
       "routes"
     ],
-    "routeManifest": "sdks/_route-manifests/backend-api/sdkwork-routes-settings-backend-api.route-manifest.json",
+    "routeManifest": "../../apis/backend-api/settings/sdkwork-settings-backend-api.openapi.json",
     "sdkClients": [],
     "sdkDependencies": [],
     "dependencyApiExports": [],

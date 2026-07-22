@@ -4,7 +4,7 @@
 //! 负责输入校验、雪花 ID 生成、审计日志与事务执行。
 //!
 //! 校验与字符串工具复用 [`sdkwork_utils_rust`] 与 [`sdkwork_settings_contract`],
-//! ID 生成复用 [`sdkwork_id`] 的雪花算法。
+//! ID 生成复用 [`sdkwork_platform_id_service`] 的雪花算法。
 
 mod error;
 
@@ -12,7 +12,7 @@ pub use error::ServiceError;
 
 use chrono::{DateTime, Utc};
 use sdkwork_database_sqlx::DatabasePool;
-use sdkwork_id::SnowflakeIdGenerator;
+use sdkwork_platform_id_service::SnowflakeIdGenerator;
 use sdkwork_settings_contract::{
     SystemSetting, TenantConfig, UserPreference, validate_config_key, validate_namespace,
     validate_value_size,
